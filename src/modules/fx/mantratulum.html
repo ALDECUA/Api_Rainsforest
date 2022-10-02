@@ -1,0 +1,389 @@
+<html>
+  <head>
+    <title>FIBRAX | Cotizador</title>
+    <meta charset="UTF-8" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+        @media print {
+          .saltopagina {
+            display: block;
+            page-break-before: always;
+          }
+        }
+        @page {
+          margin: 0px 0px 0px 0px !important;
+          padding: 0px 0px 0px 0px !important;
+        }
+        body {
+          background: #fff;
+          color: #000;
+          font-family: "Roboto", sans-serif;
+          font-size: 13px;
+        }
+        .center {
+          text-align: center !important;
+        }
+        * {
+          margin: 0px;
+          padding: 0px;
+          border: 0px;
+        }
+  
+        .linkpdf,
+        .linkpdf:hover,
+        .linkpdf:active {
+          background: #001241;
+          color: #ffffff !important;
+          font-size: 12px;
+          border-top: 1px solid #001241;
+          border-bottom: 1px solid #001241;
+          border-left: 1px solid #001241;
+          border-right: 1px solid #001241;
+          padding: 8px 15px;
+          margin-top: 15px;
+          float: left;
+          margin-right: 10px;
+        }
+  
+        .linkapartado {
+          background: #53b701;
+          color: #ffffff !important;
+          font-size: 17px;
+          padding: 2px 10px 2px 10px;
+          margin-right: 10px;
+          font-weight: bold;
+          text-align: center;
+  
+          border-bottom: 5px solid #53b701;
+        }
+  
+        .header1 {
+          text-align: left;
+          width: 800px;
+          margin: auto;
+        }
+        .header {
+          text-align: left;
+          width: 800px;
+          margin: auto;
+          position: absolute;
+          left: 0;
+        }
+  
+        .imgheader {
+          width: 800px;
+        }
+  
+        .contenedor {
+          padding: 25px 50px 50px 50px;
+          width: 700px;
+          margin: auto;
+          max-width: 800px !important;
+          position: relative;
+        }
+  
+        .footerizquierdo {
+          text-align: left;
+          color: #003f6d;
+          width: 300px;
+          float: left;
+          padding-left: 50px;
+          font-size: 14px;
+        }
+  
+        .footerderecho {
+          text-align: right;
+          color: #003f6d;
+          width: 300px;
+          float: right;
+          padding-right: 50px;
+          font-size: 14px;
+        }
+  
+        p {
+          margin-bottom: 0px;
+        }
+  
+        table {
+          /**/
+          width: 700px;
+          border-collapse: collapse;
+          margin-bottom: 1rem;
+        }
+  
+        tr {
+        }
+  
+        table td {
+          width: 50%;
+          font-size: 11px;
+          font-weight: bold;
+        }
+  
+        .bgris {
+          border: #e0d9d9 1px solid;
+          padding: 5px 10px;
+        }
+  
+        td b {
+          color: #003f6d;
+          text-transform: uppercase;
+          font-size: 10px;
+        }
+  
+        .titulo {
+          text-align: left;
+          color: #003f6d;
+          font-size: 26px;
+          text-align: center;
+          margin-bottom: 25px;
+          padding-bottom: 10px;
+          border-bottom: 1px solid lightblue;
+          text-transform: uppercase;
+        }
+  
+        .tgris {
+          background: #ebebeb;
+          border: #e0d9d9 1px solid;
+          color: #000;
+          text-align: center;
+          padding: 7px 0px;
+          font-size: 14px;
+          text-transform: uppercase;
+        }
+  
+        .titulosection {
+          color: #000;
+          text-align: center;
+  
+          padding: 7px 0px;
+          font-size: 14px;
+        }
+  
+        .titulosaldomsi {
+          text-align: center;
+          color: #3c6264;
+          background: #ffc8b3;
+          padding: 8px 0px;
+          font-size: 14px;
+          width: 700px;
+        }
+  
+        .table-secondary,
+        .table-secondary > th,
+        .table-secondary > td {
+          background-color: #ebebeb;
+        }
+  
+        .table thead th {
+          text-align: left;
+          padding-left: 25px;
+          padding-top: 7px;
+          padding-bottom: 7px;
+          text-transform: uppercase;
+          font-size: 14px;
+        }
+  
+        table .rows {
+          background: #fff;
+        }
+  
+        table .rows td {
+          text-align: left;
+          padding-top: 5px;
+          padding-bottom: 5px;
+          padding-left: 25px;
+          color: #000 !important;
+        }
+  
+        .contenedorlote1 {
+          width: 700px;
+        }
+  
+        .footer {
+          text-align: center;
+          width: 100%;
+          margin: auto;
+          position: relative;
+          height: 25px;
+        }
+  
+        .footerimg {
+          width: 800px;
+          /*margin-top: -75px;*/
+          position: absolute;
+          bottom: 50px;
+          left: -50px;
+        }
+  
+        .contenedorlote2 {
+          width: 700px;
+          margin-top: 50px;
+        }
+  
+        .footer2 {
+          text-align: center;
+          width: 100%;
+          margin: auto;
+  
+          position: relative;
+          height: 25px;
+        }
+  
+        .footerimg2 {
+          width: 800px;
+          /*margin-top: -75px;*/
+          position: absolute;
+          top: 185px;
+          left: -50px;
+        }
+  
+        .contenedorlote3 {
+          width: 700px;
+          height: auto;
+          margin-top: 50px;
+        }
+  
+        .footer3 {
+          text-align: center;
+          width: 100%;
+          margin: auto;
+  
+          position: relative;
+          height: 25px;
+        }
+  
+        .footerimg3 {
+          width: 800px;
+          /*margin-top: -75px;*/
+          position: absolute;
+          top: 185px;
+          left: -50px;
+        }
+  
+        .footermail,
+        .footer2email,
+        .footer3email {
+          height: auto !important;
+          width: 800px !important;
+          text-align: left !important;
+        }
+  
+        .footermail img,
+        .footer2email img,
+        .footer3email img {
+          width: 700px !important;
+          position: relative;
+          left: 0px;
+        }
+  
+        .montoinversion {
+          color: #3c6264;
+          background: #ffc8b3;
+          padding: 5px 0px;
+          text-align: center;
+          font-weight: bold;
+          font-size: 11px;
+        }
+  
+        .montoinversiontexto {
+          text-align: left;
+          font-weight: bold;
+          font-size: 11px;
+        }
+        .x0 {
+          display: none;
+        }
+        .info td {
+          border: 1px solid gray;
+          padding: 10px 20px;
+          font-size: 14px;
+          font-weight: 600;
+          text-transform: uppercase;
+        }
+        td.azul {
+          background: #c8e7f4;
+          width: 30%;
+          font-weight: 600;
+          font-size: 12px;
+        }
+        .nota{
+          color: rgb(88, 88, 88);
+        }
+      </style>
+  </head>
+  <body>
+    <section class="header1">
+        <img
+          src="https://mantratulum.mx/cotizador-legacy/images/header.png"
+          class="imgheader"
+        />
+      </section>
+  
+      <section class="contenedor" style="padding-bottom: 0">
+        <h1 class="titulo">Información DEL CLIENTE</h1>
+        <table class="info">
+          <tr>
+            <td class="azul">Nombre</td>
+            <td>{nombre}</td>
+          </tr>
+          <tr>
+            <td class="azul">Telefono</td>
+            <td>{telefono}</td>
+          </tr>
+          <tr>
+            <td class="azul">Correo electronico</td>
+            <td>{email}</td>
+          </tr>
+          </tr>
+        </table>
+        <h1 class="titulo" style="margin-top: 2rem;">FICHA DE PAGO</h1>
+        <p style="margin-bottom: 1rem;">Solicitamos que incluya la información que especificamos a continuación en todas las transferencias electrónicas realizadas a nuestra cuenta bancaria.</p>
+        <table class="info">
+          <tr>
+            <td class="azul">Nombre</td>
+            <td>Desarrolladores KHIDMA S.A de C.V</td>
+          </tr>
+          <tr>
+            <td class="azul">Banco</td>
+            <td>BANCO SANTANDER S.A DE C.V</td>
+          </tr>
+          <tr>
+            <td class="azul">Cuenta</td>
+            <td>65508742647</td>
+          </tr>
+          <tr>
+            <td class="azul">Clabe</td>
+            <td>014180655087426476</td>
+          </tr>
+          <tr>
+            <td class="azul">RFC</td>
+            <td>DKH161128PA6</td>
+          </tr>
+          <tr>
+            <td class="azul">SWIFT CODE</td>
+            <td>BMSXMXMMXXX</td>
+          </tr>
+          <tr>
+            <td class="azul">REFERENCIA</td>
+            <td>GA-MT</td>
+          </tr>
+          <tr>
+            <td class="azul">CONCEPTO</td>
+            <td>{concepto}</td>
+          </tr>
+          <tr>
+            <td class="azul">MONTO</td>
+            <td>{monto}</td>
+          </tr>
+        </table>
+        <div class="nota">
+          <b>Nota: </b> Una vez realizada la transferencia de tu apartado es importante que envíes tu comprobante de pago a tu asesor vía correo electrónico.
+        </div>
+      </section>
+  </body>
+</html>

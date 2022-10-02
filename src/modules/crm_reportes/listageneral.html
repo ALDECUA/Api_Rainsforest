@@ -1,0 +1,229 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Reporte</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap" rel="stylesheet">
+
+    <style>
+        /* reset */
+        /* *{
+            margin:0;
+            padding: 0;
+            vertical-align: middle;
+            vertical-align: -webkit-baseline-middle;
+            box-sizing: border-box;
+        } */
+        html {
+            margin:50px 50px
+        }
+        img{
+            max-width: 100%;
+            vertical-align: middle;
+        }
+        body {
+            font-family: 'Titillium Web', sans-serif;
+            color: #000;
+            
+        }
+        :root{
+            --azulfibrax: #000b45;
+            --blanco: #fff;
+            --negro: #000;
+        }
+        /********************************* clases ***********************************/
+        /***
+        ** generales
+        ***/
+        .header{
+           
+            border-bottom: 2px solid #fff;
+            background-color: #000b45;
+            color: #fff;
+            padding: .5rem;
+            display: block;
+            width: 100%;
+            height: 57px;
+        }
+        p, h3{
+            margin-bottom: 0px;
+            margin-top: 0px;
+        }
+        .subinfo{
+            width: 100%;
+            background: #000b45;
+            padding: 0.5rem;
+            color: #fff;
+        }
+        .footer-section{
+            padding-top: .5rem;
+            border-top: 2px solid #000b45;
+
+        }
+        
+        .footer-section p:nth-child(1){
+            font-size: 11px;
+        }
+        .footer-section p:nth-child(2){
+            padding-top: .4rem;
+            font-size: 11px;
+        }
+        .footer-section p:nth-child(3){
+            font-size: 14px;
+        }
+        .col-12{
+            width: 100%;
+        }
+        .col-6{
+            width: 50%;
+        }
+        .col-3{
+            width: 25%;
+        }
+        .col-2{
+            width: 16.66666667%;
+        }
+
+        .ms-auto {
+            margin-left: auto;
+        }
+
+        .me-auto {
+            margin-right: auto;
+        }
+        .mt-5{
+            margin-top: 3rem;
+        }
+        .mb-5{
+            margin-bottom: 3rem;
+        }
+        .text-upper {
+            text-transform: uppercase;
+        }
+
+        .text-end {
+            text-align: right;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-start {
+            text-align: left;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .izq{
+            float: left;
+        }
+        
+        /* tablas */
+        
+        table {
+            caption-side: bottom;
+            border-collapse: collapse;
+           
+        }
+        tr,
+         td {
+            border: none;
+            padding:5px;
+        }
+        td{
+            font-family: 'Titillium Web', sans-serif;
+        }
+        td,
+        tfoot,
+        th,
+        thead,
+        tr {
+            border-color: inherit;
+            border-style: solid;
+            border-width: 0;
+            text-align: left;
+        }
+        thead th{
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        tbody td{
+            border: rgba(222, 226, 230, 0.5);
+            border-style: solid;
+            border-width: 0;
+            text-transform: lowercase;
+            padding: 5px
+        }
+        .head-title td {
+            border: 4px solid #000;
+        }
+        .table {
+           
+            -bs-table-bg: gray;
+            --bs-table-accent-bg: transparent;
+            --bs-table-striped-color: #212529;
+            --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
+            --bs-table-active-color: #212529;
+            --bs-table-active-bg: rgba(0, 0, 0, 0.1);
+            --bs-table-hover-color: #212529;
+            --bs-table-hover-bg: rgba(0, 0, 0, 0.075);
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #212529;
+            vertical-align: top;
+            border-color: #dee2e6;
+        }
+
+        .table>:not(caption)>*>* {
+            padding: 0.8rem 0.8rem;
+            background-color: gray;
+            border-bottom-width: 1px;
+            box-shadow: inset 0 0 0 9999px transparent;
+        }
+        .table>tbody {
+            vertical-align: inherit;
+        }
+
+         /* table header colors */
+         .table-light {
+            background-color: #000b45;
+            color: #fff;
+            text-transform: uppercase;
+            border: 1px solid #000;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }   
+        
+    </style>
+</head>
+
+<body>
+        <div class="header">            
+            <div class="col-6 izq">
+                <h3>{tituloreporte}</h3>
+                <p>{titulo}</p>
+            </div>
+            <div class="col-6 izq" style="margin-top: -12px;">
+                <p>FIBRAX</p>
+                <p>Fecha de impresion {fecha}</p>
+            </div>
+        </div>
+        <div class="subinfo">
+            <p>Departamento: {depto}</p>
+            <p>Finalidad: {finalidad}</p>
+        </div>
+        <table class="table mt-5" style="table-layout:fixed;">
+                {registros}
+        </table>
+
+        <div class="footer-section">
+            <p>*Nota: {nota}</p>
+            <p>Algunos de los datos expuestos aqui pueden variar al tiempo de la presentacion del informe</p>
+            <p>Reporte Generado desde el CRM de FIBRAX</p>
+        </div>
+</body>
+
+</html>

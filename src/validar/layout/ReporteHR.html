@@ -1,0 +1,261 @@
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<style>
+		* {
+			border: none;
+			margin: 0px;
+			padding: 0px;
+		}
+
+		.body {
+			background: #ececec;
+			width: 100%;
+			padding-top: 50px;
+			padding-bottom: 50px;
+		}
+
+		a {
+			text-decoration: none;
+			color: #178665
+		}
+
+		.btns {
+			background: #fcb841;
+			color: #ffffff;
+			font-size: 17px;
+			border-top: 10px solid #fcb841;
+			border-bottom: 10px solid #fcb841;
+			border-left: 15px solid #fcb841;
+			border-right: 15px solid #fcb841;
+			padding: 8px 15px;
+
+		}
+
+		.btns:hover {
+			background-color: #fcb841;
+			color: #2c2c2c;
+			border-top: 10px solid #fcb841;
+			border-bottom: 10px solid #fcb841;
+			border-left: 15px solid #fcb841;
+			border-right: 15px solid #fcb841;
+		}
+
+		.content {
+			width: 600px;
+			margin: auto;
+			background-color: #ffffff;
+			border-spacing: 0px;
+		}
+
+		.section1 {
+			color: #585757;
+			font-size: 17px;
+			text-align: justify;
+			padding: 10px 15px 10px 15px;
+		}
+
+		.section1 h3 a {
+			color: #585757;
+			border-bottom: 2px solid #fcb841;
+		}
+
+		.section2 {
+			width: 100%;
+			background: #0f3e72;
+			border-bottom: 1px solid #2c2c2c;
+			color: #ffffff;
+			text-align: center;
+			padding: 10px 15px 10px 15px;
+			font-size: 15px;
+		}
+
+		.section3 {
+			color: #585757;
+			font-size: 12px;
+			text-align: justify;
+			padding: 10px 15px 10px 15px;
+		}
+
+		tr {
+			width: 100%;
+		}
+
+		td {}
+
+		td img {
+			width: 100%;
+		}
+
+		p {
+			margin: 7px 0px 7px 0px;
+			float: left;
+			width: 100%;
+			font-size: 15px;
+		}
+
+		p a {
+			border-bottom: 2px solid #fcb841;
+			font-weight: 900;
+		}
+
+		@media screen and (max-width: 768px) {
+			table {
+				width: 100%;
+				margin: auto;
+				background-color: #ffffff;
+			}
+		}
+	</style>
+</head>
+
+<body>
+
+	<table class="content">
+		<!----HEADER ---->
+		<tr>
+			<td align="center" colspan="2"><img src="https://fibraxinversiones.mx/hr/images/banner-hr.png" /></td>
+		</tr>
+
+		<!----BODY2 ---->
+		<tr>
+			<td class="section1">
+				<p>
+					Este documento es una copia de la ultima hoja de registro generada.
+				</p>
+				<p><strong>Team Leader </strong> : <%Lider%>
+				</p>
+				<p><strong>Senior </strong> : <%Senior%>
+				</p>
+				<p><strong>Tipo de asesor </strong> : <%Nivel%>
+				</p>
+
+				<p><strong>Nombre </strong>: <%Nombre%>
+				</p>
+				<p><strong>Email </strong>: <%Email%>
+				</p>
+				<p><strong>Estado </strong>: <%Estado%>
+				</p>
+				<p><strong>Fecha Nacimiento </strong>: <%Fch_Nacimiento%>
+				</p>
+				<p><strong>Estado Civil </strong>: <%EstadoCivil%>
+				</p>
+				<p><strong>Edad </strong>: <%Edad%>
+				</p>
+				<p><strong>Regimen Conyugal </strong>: <%Regimen%>
+				</p>
+				<p><strong>Metodo Pago </strong>: <%MetodoPago%>
+				</p>
+			</td>
+
+			<td>
+				<p><strong>Socio Comercial </strong> : <%SocioComercial%>
+				</p>
+				<p><strong>Asesor </strong> : <%Asesor%>
+				</p>
+				<p><strong>Fecha </strong> : <%Fecha%>
+				</p>
+
+				<p><strong>Nombre del Cerrador </strong> : <%Cerrador%>
+				</p>
+
+				<p><strong>Telefono Cliente </strong>: <%Telefono%>
+				</p>
+				<p><strong>Direccion </strong>: <%Domicilio%>
+				</p>
+				<p><strong>Ciudad </strong>: <%Ciudad%>
+				</p>
+				<p><strong>Lugar Nacimiento</strong> : <%LugarNacimiento%>
+				</p>
+				<p><strong>Ocupacion </strong> : <%Ocupacion%>
+				</p>
+				<p><strong>Sexo </strong>: <%Sexo%>
+				</p>
+
+			</td>
+
+		</tr>
+
+		<tr>
+			<td>
+				<br>
+				<h2>DATOS DEL LOTE</h2>
+				<p><strong>Desarrollo </strong> : <%Desarrollo%>
+				</p>
+				<p><strong>Etapa </strong> : <%Fase%>
+				</p>
+				<p><strong>Lote </strong> : <%Lote%>
+				</p>
+				<p><strong>Precio final </strong> : <%Precio_Final%>
+				</p>
+
+				<p><strong>M2 </strong> : <%M2%>
+				</p>
+			</td>
+		</tr>
+
+		<!-- 				<tr>					
+					<td colspan="2">
+					<br>
+					<br>
+					<h2>OBSERVACIONES</h2>
+					<p><%observaciones%></p>
+					</td>
+				</tr>
+				 -->
+		<tr>
+			<td colspan="2">
+				<br>
+				<br>
+				<h2>Ecoins</h2>
+				<p><strong>Ecoins </strong>: <%ECoins%>
+				</p>
+
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan="2">
+				<br>
+				<br>
+				<h2>BONO DE RED</h2>
+				<p><strong>Origen </strong>: <%OrigenBeneficiario%>
+				</p>
+				<p><strong>Nombre Beneficiario </strong>: <%Nombre_Beneficiario%>
+				</p>
+				<p><strong>Correo Electronico </strong>: <%EmailBeneficiario%>
+				</p>
+				<p><strong>Fecha de Nacimiento </strong>: <%FchNacBeneficiario%>
+				</p>
+				<p><strong>Fx Coins </strong>: <%FxCoins%>
+				</p>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<small>La información contenida en este mensaje es enviada única y exclusivamente para el uso de la
+					persona, ente o entidad a quien está dirigida y/o de cualquier otra que esté autorizada para
+					recibirla. Puede contener información confidencial, privada o legalmente privilegiada. Si usted no
+					es el destinatario, queda en este acto notificado que, en caso de cualquier divulgación,
+					reproducción, distribución o cualquier acción con relación al contenido de esta información, se
+					encuentra estrictamente prohibido y podría ser ilegal y penal.
+					Cualquier opinión y otra declaración contenida en este mensaje y cualquier archivo adjunto son de
+					exclusiva responsabilidad del autor y no representan necesariamente las de la empresa.
+					Si usted ha recibido este mensaje por error, por favor notificarlo respondiendo a este correo
+					electrónico y después bórrelo de su sistema.</small>
+			</td>
+		</tr>
+
+		<tr style="background: #001241; color: #fff;">
+			<td align="center" colspan="2"><br> © 2020 Fibrax.mx Todos los derechos reservados. <br><br></td>
+		</tr>
+
+	</table>
+
+
+</body>
+
+</html>
