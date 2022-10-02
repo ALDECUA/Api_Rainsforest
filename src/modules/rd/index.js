@@ -12,12 +12,5 @@ router.post("/insertar", koaBody(), async function (context) {
     }
 });
 
-router.get("/getTickets", koaBody({ multipart: true }), async function (context) {
-    try {
-        context.body = await db.obtenerTickets();
-    } catch (error) {
-        context.body = { error: true, message: error.message };
-    }
-})
 
 module.exports = router;
