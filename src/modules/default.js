@@ -9,11 +9,11 @@ const koaRouter = require("koa-router");
 const router = new koaRouter();
 
 router.get("/", async function (context) {
-    context.body = "FIBRAX API TEST";
+    context.body = "Rainsforest api";
 });
 
 router.get("/test", async function (context) {
-    context.body = "FIBRAX API";
+    context.body = "Rainsforest api";
 });
 
 module.exports = router;
