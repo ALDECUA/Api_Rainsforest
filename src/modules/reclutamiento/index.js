@@ -10,7 +10,7 @@ router.post("/reclutamiento", koaBody({ multipart: true }), async function(conte
     try {
         let data = context.request.body;
         context.body = await db.sp_loginPrueba(data);
-        
+        console.log('DATOS FRONT', data);
     } catch (error) {
         context.body = { error: true, message: error.message };
     }
@@ -235,7 +235,7 @@ router.post("/reporte_global", koaBody(), async function(context) {
         html = html.replace('{registros.activos}', data.activos);
         html = html.replace('{registros.inactivos}', data.proceso);
         html = html.replace('{registros.inversionista}', data.baja);
-        await Request.post('https://fibraxinversiones.mx/api/storage/generar_recibo.php')
+        await Request.post('https://greenpark.mx/api/storage/generar_recibo.php')
             .set('Content-type', 'application/json')
             .set('Accept', 'application/json')
             .send({ documento: html })
@@ -282,7 +282,7 @@ router.get("/asesores/:scom/:lider", koaBody({ multipart: true }), async functio
 
 router.get("/personasfxcoins", koaBody({ multipart: true }), async function(context) {
     try {
-       
+        console.log('hola');
         context.body = await db.ListarPersonasFxcoins();
     } catch (error) {
         context.body = { error: true, message: error.message };

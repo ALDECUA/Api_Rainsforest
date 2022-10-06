@@ -18,7 +18,7 @@ class Roles {
                 try {
                     permisos = JSON.parse(p.permisos);
                 } catch (error) {
-                   
+                    console.log(error);
                 }
                 roles.push({
                     IdRol: p.IdRol,

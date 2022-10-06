@@ -6,6 +6,7 @@ const { enviar } = require("../../validar");
 const fs = require('fs');
 const Request = require('superagent');
 const { set } = require("../../validar/config");
+const Dominio = 'https://greenpark.mx/'
 
 
 
@@ -123,8 +124,8 @@ router.post("/imprimir_reporte", koaBody(), async function(context) {
         html = html.replace('{reporte}', data.reporte);
         html = html.replace('{detalles}', data.detalles);
         html = html.replace('{campos_tabla}', data.campos_tabla);
-       
-        await Request.post('https://fibraxinversiones.mx/api/storage/generar_recibo.php')
+        console.log(html);
+        await Request.post(Dominio+'api/storage/generar_recibo.php')
             .set('Content-type', 'application/json')
             .set('Accept', 'application/json')
             .send({ documento: html })
@@ -154,8 +155,8 @@ router.post("/reporteEstadisticas", koaBody(), async function(context) {
         html = html.replace('{finalidad}', data.finalidad);
         html = html.replace('{cabeceras}', data.cabeceras);
         html = html.replace('{registros}', data.registros);
-     
-        await Request.post('https://fibraxinversiones.mx/api/storage/generar_recibo.php')
+        console.log(data);
+        await Request.post(Dominio+'api/storage/generar_recibo.php')
             .set('Content-type', 'application/json')
             .set('Accept', 'application/json')
             .send({ documento: html })

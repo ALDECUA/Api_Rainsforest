@@ -10,8 +10,8 @@ const sql = require("mssql");
 
 async function sp_AddTransformacion(data) {
     try {
-      
-       
+        console.log(data);
+        console.log(JSON.stringify(data.Detalle));
         const connection = await new sql.ConnectionPool(config).connect();
         const user = await connection
             .request()

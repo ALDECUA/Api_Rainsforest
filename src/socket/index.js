@@ -11,7 +11,7 @@ function setUsers(users) {
 }
 
 io.on('connection', (socket) => {
-    
+    console.log(socket.id);
     socket.emit('hola', {});
     /*socket.on('tokenSocket', (data) => {
         users.push({ socket: socket.id, data });

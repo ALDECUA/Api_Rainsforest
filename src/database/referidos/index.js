@@ -105,7 +105,8 @@ async function referidopromotores(data) {
                         pendientes: recordset[0],
                         interesandont: recordset[1],
                         referidos: recordset[2],
-                        referidoszap: recordset[3]
+                        referidoszap: recordset[3],
+                        interesandontzap: recordset[4]
                     };
                         
                 } else {
@@ -120,7 +121,7 @@ async function referidopromotores(data) {
  }
  async function ActualizarReferido(data) {
     try{
-    
+        console.log(data)
        const connection = await new sql.ConnectionPool(config).connect();
        const user = await connection
            .request()

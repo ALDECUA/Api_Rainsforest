@@ -124,7 +124,8 @@ async function PersonaComisiones(data) {
 }
 async function SubirExcel(data) {
   try {
-  
+    console.log(data);
+    console.log(data.email);
     if (data.email === "undefined" || data.phone_number === "undefined") {
       return {
         error: true,
@@ -153,7 +154,7 @@ async function SubirExcel(data) {
       .then((dbData) => {
         const recordset = dbData.recordset;
         if (recordset) {
-          
+          console.log(recordset, "Respuesta");
           return recordset;
         } else {
           return {
@@ -258,63 +259,6 @@ async function EliminarMovimiento(id) {
     return { error: true, message: error.message };
   }
 }
-async function ObtenerLotesInv(id) {
-  try {
-    const connection = await new sql.ConnectionPool(config).connect();
-    const result = await connection
-      .request()
-      .input("IdPersona", sql.Int, id)
-      .execute("CC_LotesInv")
-      .then((dbData) => {
-        const recordset = dbData.recordsets;
-        if (recordset) {
-          return {Persona: recordset[0][0], Lotes: recordset[1]};
-        } else {
-          return {
-            error: true,
-            message: "Error, no se elimino el movimiento",
-          };
-        }
-      });
-    connection.close();
-    return result;
-  } catch (error) {
-    return { error: true, message: error.message };
-  }
-}
-async function RegistrarPago(data) {
-  try {
-    const connection = await new sql.ConnectionPool(config).connect();
-    const hrr = await connection
-      .request()
-      .input("IdPago", sql.Int, data.IdPago)
-      .input("IdHR", sql.Int, data.IdHR)
-      .input("IdTipoPago", sql.Int, data.IdTipoPago)
-      .input("Referencia", sql.NVarChar(100), data.Referencia || null)
-      .input("Importe", sql.Float, data.Importe)
-      .input("IdStatus", sql.Int, data.IdStatus)
-      .input("FechaPago", sql.Date, data.FechaPago)
-      .input("Usr", sql.NVarChar(100), data.Usr || null)
-      .input("Comprobante", sql.NVarChar(100), data.Img_Comprobante || null)
-      .input("IdConcepto", sql.Int, data.IdConcepto || null)
-      .execute("HR_RegistrarPago")
-      .then(async (dbData) => {
-        const recordset = dbData.recordsets;
-        if (recordset[0]) {
-          return {  result:recordset[0][0], pagos:recordset[1], lotes: recordset[2] };
-        } else {
-          return {
-            error: true,
-            message: "No se registro el pago.",
-          };
-        }
-      });
-    connection.close();
-    return hrr;
-  } catch (error) {
-    return { error: true, message: error.message };
-  }
-}
 
 async function InsertarArray(arreglo = []) {
   let i = 0;
@@ -326,22 +270,6 @@ async function InsertarArray(arreglo = []) {
     return { exito: 1 };
   }
 }
-
-async function InsertarArrayPagos(arreglo = []) {
-  let i = 0;
-  let res;
-  for (const movimiento of arreglo) {
-    console.log(movimiento)
-    res = await RegistrarPago(movimiento);
-    i++;
-    console.log(res)
-  }
-  console.log('ya')
-  if (i == arreglo.length) {
-    return res;
-  }
-}
-
 async function InsertarArrayLead(arreglo = []) {
   let i = 0;
   for (const movimiento of arreglo) {
@@ -363,8 +291,5 @@ module.exports = {
   InsertarArray,
   Volumen,
   ObtenerTeamLider,
-  EliminarMovimiento,
-  InsertarArrayPagos,
-  ObtenerLotesInv,
-  RegistrarPago
+  EliminarMovimiento
 };

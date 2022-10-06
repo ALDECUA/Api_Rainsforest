@@ -1,5 +1,6 @@
 const config = require("../config");
 const sql = require("mssql");
+const Dominio = "https://greenpark.mx/";
 
 async function insertarPersona(data) {
   try {
@@ -169,15 +170,14 @@ async function insertarBonoRed(data) {
   }
 }
 
-async function getPersonas(data) {
+async function getPersonas() {
   try {
     const connection = await new sql.ConnectionPool(config).connect();
     const records = await connection
       .request()
-      .input("REGISTRO", sql.Int, data)
       .execute("HR_ListarRegistros")
       .then((dbData) => {
-        const recordset = dbData.recordsets;
+        const recordset = dbData.recordset;
         if (recordset[0]) {
           return recordset;
         } else {
@@ -202,7 +202,7 @@ async function getCampana() {
       .then((dbData) => {
         const recordset = dbData.recordset;
         if (recordset) {
-      
+          console.log(recordset)
           return recordset;
         } else {
           return {
@@ -273,7 +273,7 @@ async function getHrDatos(data) {
 }
 
 async function cambiarStatusHr(data) {
-  
+  console.log(data);
   try {
     const connection = await new sql.ConnectionPool(config).connect();
     const statusHr = await connection
@@ -326,7 +326,7 @@ async function updateArchivoSP(data) {
 }
 async function actualizarDatosGeneralesHR(data) {
   try {
-  
+    console.log(data);
     const connection = await new sql.ConnectionPool(config).connect();
     const update = await connection
       .request()
@@ -420,7 +420,7 @@ async function actualizarBonoRed(data) {
 }
 
 async function actualizarLoteHr(data) {
-
+  console.log(data);
   try {
     const connection = await new sql.ConnectionPool(config).connect();
     const update = await connection
@@ -710,12 +710,12 @@ async function RegistrarPago(data) {
     const connection = await new sql.ConnectionPool(config).connect();
     const hrr = await connection
       .request()
-      .input("IdPago", sql.Int, data.IdPago)
       .input("IdHR", sql.Int, data.IdHR)
       .input("IdTipoPago", sql.Int, data.IdTipoPago)
       .input("Referencia", sql.NVarChar(100), data.Referencia || null)
       .input("Importe", sql.Float, data.Importe)
       .input("IdStatus", sql.Int, data.IdStatus)
+      .input("FechaRegistro", sql.Date, data.FechaRegistro)
       .input("FechaPago", sql.Date, data.FechaPago)
       .input("Usr", sql.NVarChar(100), data.Usr || null)
       .input("Comprobante", sql.NVarChar(100), data.ComprobantePago || null)
@@ -919,7 +919,7 @@ async function NumeroMensualidades(data) {
 
 async function InsertarReferidos(data) {
   try {
-   
+    console.log(data);
     if(data.datosmontos){
       data.datosmontos = JSON.stringify(data.datosmontos);
     }
@@ -927,19 +927,17 @@ async function InsertarReferidos(data) {
     const insert = await connection
       .request()
       /* Inversionistas */
-      .input("IdInversionista", sql.Int, data.IdInversionista )
-      .input("IdAsesor", sql.Int, data.IdAsesor )
-      .input("Email", sql.NVarChar(255), data.Email )
-      .input("Nombre_Completo", sql.NVarChar(500), data.Nombre_Completo )
-      .input("Contacto", sql.NVarChar(50), data.Contacto )
-      .input("WhatssApp", sql.NVarChar(50), data.WhatssApp )
-      .input("Comentario", sql.NVarChar(500), data.Comentario )
-      .input("datosmontos", sql.Text, data.datosmontos )
-      .input("Relacioninversionista", sql.Text, data.Relacioninversionista )
-      .input("ocupacion", sql.Text, data.ocupacion )
-
+      .input("IdInversionista", sql.Int, data.IdInversionista || null)
+      .input("IdAsesor", sql.Int, data.IdAsesor || null)
+      .input("Email", sql.NVarChar(255), data.Email || null)
+      .input("Nombre_Completo", sql.NVarChar(500), data.Nombre_Completo || null)
+      .input("Contacto", sql.NVarChar(50), data.Contacto || null)
+      .input("WhatssApp", sql.NVarChar(50), data.WhatssApp || null)
+      .input("Comentario", sql.NVarChar(500), data.Comentario || null)
+      .input("datosmontos", sql.Text, data.datosmontos || null)
+      .input("Relacioninversionista", sql.Text, data.Relacioninversionista || null)
+      .input("ocupacion", sql.Text, data.ocupacion || null)
 /* Asesores */
-/*
       .input("IdreferidoA", sql.Int, data.IdReferido || null)
       .input("IdAsesor1", sql.Int, data.IdPersona || null)
       .input("Nombre", sql.NVarChar(500), data.Nombre || null)
@@ -951,14 +949,13 @@ async function InsertarReferidos(data) {
       .input("Contactos", sql.NVarChar, data.Contactos || null)
       .input("IdAsesor2", sql.Int, data.IdAsesor2 || null)
       .input("ComentarioA", sql.Text, data.ComentarioA || null)
-      */
 /* Identificador */
-      /*.input("Origenes", sql.Int, data.Origenes )*/
+      .input("Origenes", sql.Int, data.Origenes )
       .execute("FX_InsertarReferidos")
       .then(async (dbData) => {
         const recordset = dbData.recordset;
         if (recordset) {
-      
+          console.log(recordset)
           return recordset[0];
         } else {
           return { error: true, message: "Error interno" };
@@ -1189,6 +1186,29 @@ async function crearInversionistaSimple(data) {
     return { error: true, message: error.message };
   }
 }
+async function getInversionistasRegistradosPAGOS() {
+  try {
+    const connection = await new sql.ConnectionPool(config).connect();
+    const records = await connection
+      .request()
+      .execute("CC_ListaDeInversionista")
+      .then((dbData) => {
+        const recordset = dbData.recordset;
+        if (recordset[0]) {
+          return recordset;
+        } else {
+          return {
+            error: true,
+            message: "No se encontraron registros",
+          };
+        }
+      });
+    connection.close();
+    return records;
+  } catch (error) {
+    return { error: true, message: error.message }; //
+  }
+}
 async function DesarrolloPreciototal() {
   try {
     const connection = await new sql.ConnectionPool(config).connect();
@@ -1212,30 +1232,6 @@ async function DesarrolloPreciototal() {
     return { error: true, message: error.message }; //
   }
 }
-
-async function getInversionistasRegistradosPAGOS() {
-  try {
-    const connection = await new sql.ConnectionPool(config).connect();
-    const records = await connection
-      .request()
-      .execute("CC_ListaDeInversionista")
-      .then((dbData) => {
-        const recordset = dbData.recordsets;
-        if (recordset) {
-          return recordset;
-        } else {
-          return {
-            error: true,
-            message: "No se encontraron registros",
-          };
-        }
-      });
-    connection.close();
-    return records;
-  } catch (error) {
-    return { error: true, message: error.message }; //
-  }
-}
 async function getInversionistasRegistrados() {
   try {
     const connection = await new sql.ConnectionPool(config).connect();
@@ -1243,7 +1239,7 @@ async function getInversionistasRegistrados() {
       .request()
       .execute("HR_ObtenerRegistrosInversionistas")
       .then((dbData) => {
-        const recordset = dbData.recordsets;
+        const recordset = dbData.recordset;
         if (recordset[0]) {
           return recordset;
         } else {
@@ -1288,7 +1284,7 @@ async function getPagosPersona(id) {
 }
 async function finalizarProcesoHR(data) {
   try {
-   
+    console.log('entra primero')
     const connection = await new sql.ConnectionPool(config).connect();
     const result = await connection
       .request()
@@ -1300,11 +1296,11 @@ async function finalizarProcesoHR(data) {
         if (recordset) {
           
           for (let i = 0; i < recordset.length; i++) {
-           
+            console.log(recordset[i].llave,'LLAVE 1')
               let llave = JSON.parse(recordset[i].llave); 
-           
-              let URL = 'https://fibraxinversiones.mx/asesores/app/juego';
-              let imagenes = ['https://fibraxinversiones.mx/assets/img/Img-Notificaciones/Fibrax.jpg'];
+              console.log(llave,'LLAVE 2') ;
+              let URL = Dominio+'asesores/app/juego';
+              let imagenes = [Dominio+'assets/img/Img-Notificaciones/Fibrax.jpg'];
               const webpush = require('web-push');
               const express = require('express');
               const cors = require('cors')
@@ -1318,7 +1314,7 @@ async function finalizarProcesoHR(data) {
               }
               
               webpush.setVapidDetails(
-                  'mailto:corportativo@fibrax.mx',
+                  'mailto:corportativo@greenpark.mx',
                   vapidKeys.publicKey,
                   vapidKeys.privateKey
               );
@@ -1334,7 +1330,7 @@ async function finalizarProcesoHR(data) {
                           "title": 'Tienes un nuevo HR',
                         /*   "body": recordset[0][i].Texto, */
                           "badge": "💵",
-                          "icon": "https://fibraxinversiones.mx/asesores/assets/icons/Fibrax-app--logo1-modified.png",
+                          "icon": Dominio+"asesores/assets/Fibrax-app--logo1-modified.png",
                           "vibrate": [100, 50, 100],
                           "image": imagenes,
                           "actions": [   
@@ -1383,10 +1379,9 @@ async function finalizarProcesoHR(data) {
     return { error: true, message: error.message };
   }
 }
-
 async function enviarContrato(data) {
   try {
-    
+    console.log('entra primero')
     const connection = await new sql.ConnectionPool(config).connect();
     const result = await connection
       .request()
@@ -1402,26 +1397,6 @@ async function enviarContrato(data) {
     return { error: true, message: error.message };
   }
 }
-
-async function contratoGenerado(data) {
-  try {
-    
-    const connection = await new sql.ConnectionPool(config).connect();
-    const result = await connection
-      .request()
-      .input("IdHR", sql.Int, data.HR || null)
-      .input("Persona", sql.NVarChar(100), data.Usuario || null)
-      .execute("HR_ContratoGenerado")
-      .then((dbData) => {
-        const recordset = dbData.recordset;
-      });
-    connection.close();
-    return result;
-  } catch (error) {
-    return { error: true, message: error.message };
-  }
-}
-
 async function Cambionotifiacionjuego(data) {
   try {
     const connection = await new sql.ConnectionPool(config).connect();
@@ -1478,7 +1453,7 @@ async function EliminarReferido(id) {
  */
 async function agregarHrInversionista(data) {
   try {
-
+    console.log(data)
     const connection = await new sql.ConnectionPool(config).connect();
     const hrr = await connection
       .request()
@@ -1858,32 +1833,6 @@ async function busquedaInv(data) {
     return { error: true, message: error.message };
   }
 }
-async function buscarhrname(data) {
-  try {
-    console.log(data)
-    const connection = await new sql.ConnectionPool(config).connect();
-    const bono = await connection
-      .request()
-      .input("nombre", sql.NVarChar(1000), data)
-      .execute("HR_BuscarNombreHr")
-      .then((dbData) => {
-        const recordset = dbData.recordset;
-        if (recordset) {
-          return recordset;
-        } else {
-          return {
-            empty: true,
-            message: "No se encontro coincidencia",
-          };
-        }
-      });
-    connection.close();
-    return bono;
-  } catch (error) {
-    return { error: true, message: error.message };
-  }
-}
-
 module.exports = {
   insertarPersona,
   insertarHr,
@@ -1947,9 +1896,6 @@ module.exports = {
   GuardarRespuestas,
   busquedaInv,
   enviarContrato,
-  contratoGenerado,
-  DesarrolloPreciototal,
   getInversionistasRegistradosPAGOS,
-  buscarhrname
+  DesarrolloPreciototal
 };
-

@@ -149,7 +149,7 @@ router.post('/info_inversionistas', koaBody({ multipart: true }), verifyToken, a
         context.request.body.token = bearerToken;
         const loggedUser = await JwtVerify(bearerToken);
         context.request.body.IdPersona = loggedUser.IdPersona;
-       
+        console.log(context.request.body.IdPersona);
 
         let data = context.request.body;
         let user = await db.getInversionista(data);

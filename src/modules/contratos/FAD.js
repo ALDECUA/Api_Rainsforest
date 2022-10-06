@@ -6,6 +6,7 @@ const Request = require('superagent');
 const moment = require('moment-timezone');
 const fs = require('fs');
 const crypto = require("crypto");
+const Dominio = "https://greenpark.mx/";
 
 const desarrollosGeneradores = {
     8:'generar_mantra.php',
@@ -40,13 +41,14 @@ async function crearRequisicion(xml, pdf, logo, idHR) {
 		.field('xml', xml)
 		.field('pdf', pdf)
 		.field('hash', sha256)
-		.then(res => {			
+		.then(res => {
+			console.log(res);
 			return res.body;
 		}).catch(err => {
-			
+			console.log(err);
 			return { error: true, message: err.message };
 		});
-	
+	console.log(result);
 	return result;
 }
 
@@ -58,7 +60,7 @@ async function obtenerInformacion(id) {
 		.then(res => {
 			return res.body;
 		}).catch(err => {
-			
+			console.log(err);
 			return { error: true, message: err.message };
 		});
 	return result;
@@ -73,7 +75,7 @@ async function requisitionKeys(id) {
 		.then(res => {
 			return res.body;
 		}).catch(err => {
-		
+			console.log(err);
 			return { error: true, message: err.message };
 		});
 	return result;
@@ -88,7 +90,7 @@ async function getContratoFirmado(id) {
 		.then(res => {
 			return res.body;
 		}).catch(err => {
-			
+			console.log(err);
 			return { error: true, message: err.message };
 		});
 	return result;
@@ -108,15 +110,14 @@ async function contratosFAD(router) {
 		}
 	});
 
-	router.get("/fad/requisicion/crear/:idHR", koaBody(), async function (context) {
+	router.post("/fad/requisicion/crear/:idHR", koaBody(), async function (context) {
 		try {
-			let data = context.params.idHR;
+			let data = context.request.body;
 			let XML = fs.readFileSync(__dirname + '/requisition.xml', 'utf-8');
-			let info = await db2.obtenerDocumentoDigital(data);
+			let info = await db2.obtenerDocumentoDigital(context.params.idHR);
 			if(info.error === 1) {
 				context.status = 401;
 				context.body = {error:true, message: info.message};
-				console.log('error igual a 1')
 				return;
 			}
 			//console.log(info);
@@ -132,7 +133,7 @@ async function contratosFAD(router) {
 			XML = XML.replace(new RegExp('@FECHA', 'g'), moment().format('DD/MM/YYYY'));
 
 			//console.log(XML);
-			let PDF = await Request.post('https://fibraxinversiones.mx/pruebas_dwit/tcpdf/'+desarrollosGeneradores[info.IdDesarrollo])
+			let PDF = await Request.post(Dominio+'pruebas_dwit/tcpdf/'+desarrollosGeneradores[info.IdDesarrollo])
 				.set('Content-type', 'application/json')
 				.set('Accept', 'application/json')
 				.send(ContentPDF)
@@ -144,13 +145,13 @@ async function contratosFAD(router) {
 				});
 
 			if (PDF) {
-			
+				console.log(PDF);
 				//PDF = Buffer.from(PDF).toString('base64');
-				const requisicion = await crearRequisicion(XML, PDF, null, data);
-				console.log(requisicion)
-				
+				const requisicion = await crearRequisicion(XML, PDF, null, context.params.idHR);
+
+				console.log(requisicion);
 				if (requisicion.error) {
-					throw { error: true, message: requisicion.error };
+					throw { error: true, message: requisicion.message };
 				} else if (requisicion.data) {
 
 					data.idHR = context.params.idHR;
@@ -213,7 +214,7 @@ async function contratosFAD(router) {
 
 						if (results.success === true) {
 
-							
+							console.log(results.data);
 							if (results.data.status === 'SIGNED') {
 								await db2.setContratoFirmado({ id: contratos[i].RequisitionId });
 							}

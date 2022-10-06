@@ -1,7 +1,7 @@
 /**
  *  index.js
  *  @version: 1.0.0
- *  @author: Fibrax
+ *  @author: Green Park
  *  @description: Rutas y métodos para /auth
  */
 

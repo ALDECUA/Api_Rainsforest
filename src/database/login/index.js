@@ -16,6 +16,7 @@ const sql = require("mssql");
  
 async function sp_loginPrueba(data) {
     try {
+        console.log(data);
         const connection = await new sql.ConnectionPool(config).connect();
         const login = await connection
             .request()
@@ -80,7 +81,7 @@ async function loginCrm(data) {
 async function loginInversionista(data) {
     try {
         const connection = await new sql.ConnectionPool(config).connect();
-     
+        console.log("1");
         const login = await connection
             .request()
             .input("Correo", sql.VarChar(254), data.Correo || null)
@@ -89,11 +90,11 @@ async function loginInversionista(data) {
             .input("Id", sql.Int, data.IdPersona || 0)
             .execute("InversionistasLogin")
             .then(async (dbData) => {
-           
+                console.log("2");
                 const recordset = dbData.recordsets;
                 if (recordset) {
                     if (recordset.length > 0) {
-                    
+                        console.log(recordset);
                         return {
                             persona: recordset[0][0],
                             archivos: recordset[1],
@@ -110,7 +111,7 @@ async function loginInversionista(data) {
         connection.close();
         return login;
     } catch (error) {
-        
+        console.log("aqui");
         return { error: true, message: error.message };
     }
 }

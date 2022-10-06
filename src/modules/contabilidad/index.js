@@ -5,6 +5,7 @@ const db = require("../../database/contabilidad");
 const { enviar, enviarj, enviarJM } = require("../../validar");
 const fs = require("fs");
 const Request = require("superagent");
+const Dominio = "https://greenpark.mx/";
 
 router.post("/personas_comisiones", koaBody(), async function (context) {
   try {
@@ -17,7 +18,7 @@ router.post("/personas_comisiones", koaBody(), async function (context) {
 router.post("/ObtenerTeamLider", koaBody(), async function (context) {
   try {
     let data = context.request.body;
-  
+    console.log(data)
     context.body = await db.ObtenerTeamLider(data);
   } catch (error) {
     context.body = { error: true, message: error.message };
@@ -26,7 +27,7 @@ router.post("/ObtenerTeamLider", koaBody(), async function (context) {
 router.post("/Volumen", koaBody(), async function (context) {
   try {
     let data = context.request.body;
-   
+    console.log(data)
     context.body = await db.Volumen(data);
   } catch (error) {
     context.body = { error: true, message: error.message };
@@ -79,7 +80,7 @@ router.post("/movimientos", koaBody(), async function (context) {
 router.post("/reporte_movimientos", koaBody(), async function (context) {
   try {
     const data = context.request.body;
-   
+    console.log(data);
     let html = fs.readFileSync(
       __dirname + "/reporte_movimientos.html",
       "utf-8"
@@ -87,7 +88,7 @@ router.post("/reporte_movimientos", koaBody(), async function (context) {
     html = html.replace("{fecha}", data.fecha);
     html = html.replace("{registros}", data.movimientos);
     await Request.post(
-      "https://fibraxinversiones.mx/api/storage/generar_recibo.php"
+      Dominio+"api/storage/generar_recibo.php"
     )
       .set("Content-type", "application/json")
       .set("Accept", "application/json")
@@ -143,36 +144,10 @@ router.post("/excel", koaBody(), async function (context) {
     context.body = { error: true, message: error.message };
   }
 });
-router.post("/excelPagos", koaBody(), async function (context) {
-  try {
-    let data = context.request.body;
-    let result = await db.InsertarArrayPagos(data);
-    context.body = result;
-  } catch (error) {
-    context.body = { error: true, message: error.message };
-  }
-});
-
 router.get("/eliminarmov/:id", koaBody(), async function (context) {
   try {
     const data = context.params.id;
     context.body = await db.EliminarMovimiento(data);
-  } catch (error) {
-    context.body = { error: true, message: error.message };
-  }
-});
-router.get("/lotes/:id", koaBody(), async function (context) {
-  try {
-    const data = context.params.id;
-    context.body = await db.ObtenerLotesInv(data);
-  } catch (error) {
-    context.body = { error: true, message: error.message };
-  }
-});
-router.post("/registrar_pago", koaBody(), async function (context) {
-  try {
-    const data = context.request.body;
-    context.body = await db.RegistrarPago(data);
   } catch (error) {
     context.body = { error: true, message: error.message };
   }

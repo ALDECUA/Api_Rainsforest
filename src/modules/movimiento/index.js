@@ -19,7 +19,7 @@ router.post("/AddMovimiento", koaBody(), async function(context) {
         context.body = await db.sp_AddMovimiento(data);
 
         if (context.body.insert) {
-           
+            console.log('Entré aquí');
             socket.emit("newNotification", {notification: true});
         }
     } catch (error) {

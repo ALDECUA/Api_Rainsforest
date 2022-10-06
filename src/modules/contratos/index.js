@@ -6,6 +6,7 @@ const db2 = require("../../database/contratos/FAD");
 const fs = require('fs');
 const Request = require('superagent');
 const FAD = require('./FAD');
+const Dominio = "https://greenpark.mx/";
 
 FAD(router);
 
@@ -46,7 +47,7 @@ router.get("/obtener/pdf/:id", koaBody(), async function (context) {
         const pdf = await db.obtenerMachote(context.params);
         let endpoint = desarrollosGeneradores[pdf.IdDesarrollo];
         //http request
-        await Request.get('https://fibraxinversiones.mx/pruebas_dwit/tcpdf/' + (endpoint !== undefined ? endpoint : 'generar2.php'))
+        await Request.get(Dominio+'pruebas_dwit/tcpdf/' + (endpoint !== undefined ? endpoint : 'generar2.php'))
             .set('Content-type', 'application/json')
             .set('Accept', 'application/json')
             .send({ documento: pdf.Machote })
@@ -79,7 +80,7 @@ router.get("/obtener/documentodigital/:idHR", koaBody(), async function (context
             return;
         }
 
-        await Request.post('https://fibraxinversiones.mx/pruebas_dwit/tcpdf/' + desarrollosGeneradores[pdf.IdDesarrollo])
+        await Request.post(Dominio+'pruebas_dwit/tcpdf/' + desarrollosGeneradores[pdf.IdDesarrollo])
             .set('Content-type', 'application/json')
             .set('Accept', 'application/json')
             .send(pdf)
@@ -98,7 +99,7 @@ router.get("/obtener/documentodigital/:idHR", koaBody(), async function (context
 router.get("/probar/pdf", koaBody(), async function (context) {
     try {
         const html = fs.readFileSync(__dirname + '/formato2.html', 'utf-8');
-        await Request.post('https://fibraxinversiones.mx/pruebas_dwit/tcpdf/generar.php')
+        await Request.post(Dominio+'pruebas_dwit/tcpdf/generar.php')
             .set('Content-type', 'application/json')
             .set('Accept', 'application/json')
             .send({ documento: html })
@@ -161,15 +162,6 @@ router.post("/setfirmado", koaBody(), async function (context) {
     try {
         let data = context.request.body;
         context.body = await db.setContratoFirmado(data);
-    } catch (error) {
-        context.body = { error: true, message: error.message };
-    }
-});
-
-router.post("/ContratoRanking", koaBody(), async function (context) {
-    try {
-        let data = context.request.body;
-        context.body = await db.ContratoRanking(data);
     } catch (error) {
         context.body = { error: true, message: error.message };
     }
@@ -241,7 +233,7 @@ router.post("/verificar_contrato", koaBody(), async function (context) {
 
     try {
         let data = context.request.body;
-      
+        console.log(data);
         context.body = await db.verificar_contrato(data);
     } catch (error) {
         context.body = { error: true, message: error.message };

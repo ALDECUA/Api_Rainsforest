@@ -27,7 +27,7 @@ async function listarLotes() {
 }
 async function EliminarColumna(a) {
   try { 
-   
+    console.log(a)
     const connection = await new sql.ConnectionPool(config).connect();
     const result = await connection
       .request()
@@ -126,7 +126,7 @@ async function volumenHR(data) {
 }
 async function InsertarComisiones(data) {
   try {
-   
+    console.log(data,"Insertar comisiones");
     const connection = await new sql.ConnectionPool(config).connect();
     const result = await connection
       .request()
@@ -163,7 +163,7 @@ async function InsertarComisiones(data) {
 
 async function InsertarNuevoNivel(data) {
   try {
-  
+    console.log(data,"Insertar comisiones");
     const connection = await new sql.ConnectionPool(config).connect();
     const result = await connection
       .request()
@@ -173,7 +173,7 @@ async function InsertarNuevoNivel(data) {
       .then((dbData) => {
         const recordset = dbData.recordset;
         if (recordset) {
-         
+          console.log(recordset)
           return recordset;
         } else {
           return {

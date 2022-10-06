@@ -6,8 +6,8 @@ const transporter = nodemailer.createTransport({
     secure: true, // use SSL
     port: 465,
     auth: {
-        user: 'noreply@beflippio.com',
-        pass: 'Beflippio2020'
+        user: 'notificaciones@greenpark.mx',
+        pass: 'NotiGPI_2022'
     },
     tls: {
         rejectUnauthorized: false

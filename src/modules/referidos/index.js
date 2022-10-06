@@ -26,7 +26,7 @@ router.post("/crearReferido", koaBody(), async function (context) {
   try {
     let data = context.request.body;
     let res = await db.referidopromotores(data);
-  
+    console.log(res);
     await enviarJM(
       {
         path: "NotificarReferidoAsesor",
