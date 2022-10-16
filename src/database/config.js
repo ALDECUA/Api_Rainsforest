@@ -9,7 +9,7 @@ let config;
 
 if (process.env.NODE_ENV === "production") {
     config = {
-        server: "mysql-rainsforest.alwaysdata.net",
+        /* server: "mysql-rainsforest.alwaysdata.net",
         port: 1433,
         database: "rainsforest_db",
         user: "282952_rainfores",
@@ -18,11 +18,15 @@ if (process.env.NODE_ENV === "production") {
         requestTimeout: 300000,
         stream: true,
         encrypt: true,
-        packetSize: 65536
+        packetSize: 65536 */
+        host: "mysql-rainsforest.alwaysdata.net",
+        database: "rainsforest_db",
+        user: "282952_rainfores",
+        password: "aldecua+-154",
     };
 } else {
     config = {
-        server: "mysql-rainsforest.alwaysdata.net",
+       /*  server: "mysql-rainsforest.alwaysdata.net",
         port: 1433,
         database: "rainsforest_db",
         user: "282952_rainfores",
@@ -31,7 +35,11 @@ if (process.env.NODE_ENV === "production") {
         requestTimeout: 300000,
         stream: true,
         encrypt: true,
-        packetSize: 65536
+        packetSize: 65536 */
+        host: "mysql-rainsforest.alwaysdata.net",
+        database: "rainsforest_db",
+        user: "282952_rainfores",
+        password: "aldecua+-154",
     };
 }
 
