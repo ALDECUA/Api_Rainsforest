@@ -52,8 +52,9 @@ async function sp_loginPrueba(data) {
 
 async function loginCrm(data) {
     try {
-        const connection =   sql.createConnection(config);
+        const connection =   sql.createConnection(config).connect();
       
+
       connection.query(('SELECT * FROM UserR WHERE Email LIKE "'+data.Correo+'" AND Clave LIKE "'+data.Pwd+'" ;'), function(error, recordset, fields){
         if(error)
         throw error;
