@@ -53,13 +53,21 @@ async function loginCrm(data) {
     try {
         const connection = await new sql.ConnectionPool(config).connect();
         const login = await connection
-            .request()
+      
+      connection.query(('SELECT * FROM UserR WHERE Email LIKE "'+data.Correo+'" AND Clave LIKE "'+data.Pwd+'" ;'), function(error, recordset, fields){
+        if(error)
+        throw error;
+    
+        return recordset
+      })
+      
+        /*       .request()
             .input("Correo", sql.VarChar(254), data.Correo || null)
             .input("Pwd", sql.VarChar(50), data.Pwd || null)
             .input("Legal", sql.Int, data.Legal || 0)
             .execute("LoginCrm2")
             .then(async (dbData) => {
-                //console.log(dbData.recordsets);
+
                 const recordset = dbData.recordset;
                 if (recordset) {
                     if (recordset.length > 0) {
@@ -70,7 +78,7 @@ async function loginCrm(data) {
                 } else {
                     return { error: true, message: "Error interno" };
                 }
-            });
+            }); */
         connection.close();
         return login;
     } catch (error) {
