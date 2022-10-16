@@ -11,7 +11,7 @@
  const fs = require('fs');
  const path = require('path');
 const config = require("../config");
-const sql = require("mssql");
+const sql = require("mysql");
 
 
 
