@@ -53,8 +53,16 @@ async function sp_loginPrueba(data) {
 
 async function loginCrm(data) {
     try {
-        const connection = await new sql.ConnectionPool(config).connect();
-        const login = await connection
+        const connection = sql.createConnection(config);
+        connection.connect((error)=>{
+            if(error){
+                throw error;
+            }else{
+                console.log('Conexion exitosa')
+            }
+        })
+
+      
       
       connection.query(('SELECT * FROM UserR WHERE Email LIKE "'+data.Correo+'" AND Clave LIKE "'+data.Pwd+'" ;'), (error, recordset)=>{
         if(error)
@@ -62,6 +70,7 @@ async function loginCrm(data) {
         
         response.send(recordset);
       })
+      connection.end();
       
         /*       .request()
             .input("Correo", sql.VarChar(254), data.Correo || null)
@@ -81,8 +90,6 @@ async function loginCrm(data) {
                     return { error: true, message: "Error interno" };
                 }
             }); */
-        connection.close();
-        return login;
     } catch (error) {
         return { error: true, message: error.message };
     }
