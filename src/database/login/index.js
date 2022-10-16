@@ -64,7 +64,7 @@ async function loginCrm(data) {
 
       
       
-      connection.query(('SELECT * FROM UserR WHERE Correo LIKE "'+data.Correo+'" AND Pwd LIKE "'+data.Pwd+'" ;'), (error, recordset)=>{
+      connection.query(('SELECT * FROM UserR '), (error, recordset)=>{
         if(error)
         throw error;
         return recordset;
