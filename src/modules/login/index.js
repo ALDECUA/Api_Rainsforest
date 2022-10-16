@@ -86,7 +86,7 @@ router.post("/login_crm", koaBody({ multipart: true }), async function (context)
 
         let user = await db.loginCrm(data);
         
-        if (user.IdUsuario) {
+        /* if (user.IdUsuario) {
 
             token = await generateJwt(user);
             context.body = {
@@ -96,8 +96,8 @@ router.post("/login_crm", koaBody({ multipart: true }), async function (context)
 
         } else {
             context.body = user;
-        }
-        //context.body = user;
+        } */
+        context.body = user;
 
     } catch (error) {
         context.body = { error: true, message: error.message };
