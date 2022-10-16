@@ -67,8 +67,15 @@ async function loginCrm(data) {
       connection.query(('SELECT * FROM UserR '), (error, recordset)=>{
         if(error)
         throw error;
-        return recordset;
-        ;
+        if (recordset) {
+            if (recordset.length > 0) {
+                return recordset[0];
+            } else {
+                return { empty: true, message: "Error de credenciales" };
+            }
+        } else {
+            return { error: true, message: "Error interno" };
+        }
       })
       connection.end();
       
