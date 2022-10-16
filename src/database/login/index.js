@@ -56,10 +56,10 @@ async function loginCrm(data) {
         const connection = await new sql.ConnectionPool(config).connect();
         const login = await connection
       
-      connection.query(('SELECT * FROM UserR WHERE Email LIKE "'+data.Correo+'" AND Clave LIKE "'+data.Pwd+'" ;'), function(error, recordset){
+      connection.query(('SELECT * FROM UserR WHERE Email LIKE "'+data.Correo+'" AND Clave LIKE "'+data.Pwd+'" ;'), (error, recordset)=>{
         if(error)
         throw error;
-    
+        
         response.send(recordset);
       })
       
