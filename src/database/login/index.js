@@ -11,7 +11,8 @@
  const fs = require('fs');
  const path = require('path');
 const config = require("../config");
-const sql = require("mysql");
+const sql = require("mssql");
+
 
 
  
@@ -52,14 +53,14 @@ async function sp_loginPrueba(data) {
 
 async function loginCrm(data) {
     try {
-        const connection =   sql.createConnection(config).connect();
+        const connection = await new sql.ConnectionPool(config).connect();
+        const login = await connection
       
-
-      connection.query(('SELECT * FROM UserR WHERE Email LIKE "'+data.Correo+'" AND Clave LIKE "'+data.Pwd+'" ;'), function(error, recordset, fields){
+      connection.query(('SELECT * FROM UserR WHERE Email LIKE "'+data.Correo+'" AND Clave LIKE "'+data.Pwd+'" ;'), function(error, recordset){
         if(error)
         throw error;
-        console.log(recordset)
-        return recordset
+    
+        response.send(recordset);
       })
       
         /*       .request()
@@ -81,7 +82,7 @@ async function loginCrm(data) {
                 }
             }); */
         connection.close();
-  
+        return login;
     } catch (error) {
         return { error: true, message: error.message };
     }
