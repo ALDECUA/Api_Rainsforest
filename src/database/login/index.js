@@ -5,13 +5,17 @@
  *  @description: Funciones asyncronas para las peticiones a bases de datos /paises
  */
  const webpush = require('web-push');
- 
+ const util = require('util');
  const cors = require('cors')
+ require('util.promisify').shim();
  const bodyParser = require('body-parser'); 
  const fs = require('fs');
  const path = require('path');
 const config = require("../config");
+const readFileAsync = util.promisify(fs.readFile);
 const sql = require("mysql");
+const { constants } = require('buffer');
+const { callbackPromise } = require('nodemailer/lib/shared');
 
 
 
@@ -51,56 +55,7 @@ async function sp_loginPrueba(data) {
     }
 }
 
-async function loginCrm(data) {
-    try {
-        const connection = sql.createConnection(config);
-        connection.connect((error)=>{
-            if(error){
-                throw error;
-            }else{
-                console.log('Conexion exitosa')
-            }
-        })
-
-      
-      
-      connection.query(('SELECT * FROM UserR WHERE Correo LIKE '+data.Correo+' AND Pwd LIKE '+data.Pwd), (error, recordset)=>{
-        if(error)
-        throw error;
-        if (recordset) {
-            if (recordset.length > 0) {
-                return recordset[0];
-            } else {
-                return { empty: true, message: "Error de credenciales" };
-            }
-        } else {
-            return { error: true, message: "Error interno" };
-        }
-      })
-      connection.end();
-      
-        /*       .request()
-            .input("Correo", sql.VarChar(254), data.Correo || null)
-            .input("Pwd", sql.VarChar(50), data.Pwd || null)
-            .input("Legal", sql.Int, data.Legal || 0)
-            .execute("LoginCrm2")
-            .then(async (dbData) => {
-
-                const recordset = dbData.recordset;
-                if (recordset) {
-                    if (recordset.length > 0) {
-                        return recordset[0];
-                    } else {
-                        return { empty: true, message: "Error de credenciales" };
-                    }
-                } else {
-                    return { error: true, message: "Error interno" };
-                }
-            }); */
-    } catch (error) {
-        return { error: true, message: error.message };
-    }
-}
+async function loginCrm(data) {}
 
 async function loginInversionista(data) {
     try {

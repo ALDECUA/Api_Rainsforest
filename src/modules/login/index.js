@@ -4,6 +4,8 @@ const router = new koaRouter({ prefix: "/login" });
 const db = require("../../database/login");
 const jwt = require("jsonwebtoken");
 const { verifyToken, JwtVerify } = require("../../helpers/middlewares");
+const sql = require("mysql");
+const config = require("../../database/config");
 
 router.post("/logout", koaBody({ multipart: true }), verifyToken, async function (context) {
     jwt.ki
@@ -79,26 +81,52 @@ router.post("/login_inversionista", koaBody({ multipart: true }), async function
     }
 });
 
+
+
 router.post("/login_crm", koaBody({ multipart: true }), async function (context) {
     try {
         //console.log('multipart');
         let data = context.request.body;
-
-        let user = await db.loginCrm(data);
-        
-        /* if (user.IdUsuario) {
-
-            token = await generateJwt(user);
+        const connection = await new sql.createConnection(config);
+        connection.connect(function(error){
+            if(error){
+                throw error;
+            }else{
+                console.log('conexion exitosa')
+            }
+        });
+        let user = await loginCrm(data);
+        if (user.IdUsuario) {
+            
+           let token = await generateJwt(user);
+            console.log(token)
             context.body = {
                 persona: user,
                 token
             }
-
+            
         } else {
             context.body = user;
-        } */
-        context.body = user;
-
+        }
+        
+        //context.body = user;
+        function loginCrm(data){
+            try {
+                return new Promise((resolve, reject) => connection.query('SELECT * FROM UserR WHERE Correo LIKE "'+data.Correo+'" AND Pwd LIKE "'+data.Pwd+'" AND IdStatus = 1', async (error, result)=>{
+                    
+                    if (result[0]) {
+                        return resolve(JSON.parse( JSON.stringify( result[0]))); 
+                    } else {
+                        return resolve({ empty: true, message: "Error de credenciales" });
+                    }
+                })
+                ) ;
+            } catch (error) {
+                return { error: true, message: error.message };
+            }
+        }
+        connection.end();
+        
     } catch (error) {
         context.body = { error: true, message: error.message };
     }
@@ -169,7 +197,7 @@ router.get("/historico_drive", koaBody(), async function (context) {
 
 
 function generateJwt(user) {
-
+    
     return new Promise(function (resolve, reject) {
         jwt.sign(user, 'secretKey', { expiresIn: '86400s' }, async (err, token) => {
             resolve(token);
