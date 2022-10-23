@@ -32,10 +32,10 @@ if (process.env.NODE_ENV === "production") {
         stream: true,
         encrypt: true,
         packetSize: 65536 */
-        host: "localhost",
+        host: "mysql-rainsforest.alwaysdata.net",
         database: "rainsforest_db",
-        user: "root",
-        password: "",
+        user: "282952_rainfores",
+        password: "aldecua+-154",
         connectionTimeout: 300000,
         requestTimeout: 300000,
         stream: true,
