@@ -50,11 +50,11 @@ async function sp_loginPrueba(data) {
 
 async function loginCrm(data) {
     try {
+        console.log('entro')
         const login = await config.query('SELECT * FROM userr WHERE Correo LIKE ? AND Pwd LIKE ? AND IdStatus = 1',[data.Correo,data.Pwd]);
-
             if (login) {
                 if (login.length > 0) {
-                    return login[0];
+                    return JSON.parse(JSON.stringify(login[0]))[0];
                 } else {
                     return { empty: true, message: "Error de credenciales" };
                 }

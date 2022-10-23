@@ -86,8 +86,8 @@ router.post("/login_crm", koaBody({ multipart: true }), async function (context)
 
         let user = await db.loginCrm(data);
         
+        console.log(user)
         if (user.IdUsuario) {
-
             token = await generateJwt(user);
             context.body = {
                 persona: user,
