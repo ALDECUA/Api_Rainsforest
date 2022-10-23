@@ -4,10 +4,7 @@ const VoiceResponse = require('twilio/lib/twiml/VoiceResponse');
 const { FunctionInstance } = require('twilio/lib/rest/serverless/v1/service/function');
 const { TodayInstance } = require('twilio/lib/rest/api/v2010/account/usage/record/today');
 const { Notificaciones } = require("../../validar");
-const Dominio = "https://greenpark.mx/";
-
 async function PromoNueva(data) {
-    
 	try {
 		const connection = await new sql.ConnectionPool(config).connect();
         const complementos = await connection
@@ -119,7 +116,7 @@ async function AvisosCorp(a) {
             .then(async(dbData) => {
                 const recordset = dbData.recordset;
                 if (recordset) {
-                    console.log(recordset)
+                    
 					return recordset[0]
                 } else {
 					return { error: true, message: 'Error IdPersona ' };
@@ -141,7 +138,7 @@ async function InsertarAvisoIdpersona(a) {
             .then(async(dbData) => {
                 const recordset = dbData.recordset;
                 if (recordset) {
-                    console.log(recordset)
+                   
 					return recordset[0]
                 } else {
 					return { error: true, message: 'Error IdPersona ' };
@@ -170,26 +167,25 @@ async function notificacionsend(data) {
             .then(async(dbData) => {
                 const recordset = dbData.recordset;
                 if (recordset) {
-                    let imagenes = [Dominio +'assets/img/Img-Notificaciones/'+data.name];
+                    let imagenes = ['https://fibraxinversiones.mx/assets/img/Img-Notificaciones/'+data.name];
                     for(let i = 0; i < recordset.length ;i++){
                     a = JSON.parse(recordset[i].llave);
                     if(link == undefined || data.link == ' ' || data.link == null ||data.link == 'undefined' || data.link == 'null'){     
                         if(data.whoiam == 2){
                             if(data.recordatorio){
-                                URL = Dominio+"asesores/app/inicio";
+                                URL = "https://fibraxinversiones.mx/asesores/app/inicio";
                             }else{      
-                                URL = Dominio+"inversionistas/login";    
+                                URL = "https://fibraxinversiones.mx/inversionistas/login";    
                             }
                         }else{
-                            URL = Dominio+"asesores/app/inicio";
+                            URL = "https://fibraxinversiones.mx/asesores/app/inicio";
                         }
                     }else{
                          URL = data.link;
                     }
                     await Notificaciones(a,data.texto,data.titulo,URL,imagenes);      
                         }
-                } else {
-			}
+                } 
         });
         connection.close();
         return user;
@@ -242,7 +238,7 @@ async function notificacionimg(data) {
 
 async function insertararray(data) {
 	try {
-        console.log(data)
+       
 		const connection = await new sql.ConnectionPool(config).connect();
         const user = await connection
             .request()
@@ -296,7 +292,7 @@ async function notificacionporhora() {
            for(let i = 0 ; i < recordset.length ; i++) {
             let datedos = new Date(recordset[i].Fch_Hora);
             let dateactual = new Date();
-            console.log(dateactual)
+         
             if(datedos.setHours(datedos.getHours() + 6,datedos.getMinutes()-datedos.getMinutes(),datedos.getSeconds()-datedos.getSeconds(),datedos.getMilliseconds()-datedos.getMilliseconds())
              == dateactual.setHours(dateactual.getHours() - 5,dateactual.getMinutes()-dateactual.getMinutes(),dateactual.getSeconds()-dateactual.getSeconds(),dateactual.getMilliseconds()-dateactual.getMilliseconds())) {
                 if(recordset[i].IdIL == null){
@@ -364,8 +360,8 @@ async function notificacionporhora() {
             for (let i = 0; i < recordset.length; i++) {
                 let llave = JSON.parse(recordset[i].llave); 
                 console.log(llave) ;
-                let URL = Dominio+'asesores/app/juego';
-                let imagenes = [Dominio + 'assets/img/Img-Notificaciones/Fibrax.jpg'];
+                let URL = 'https://fibraxinversiones.mx/asesores/app/juego';
+                let imagenes = ['https://fibraxinversiones.mx/assets/img/Img-Notificaciones/Fibrax.jpg'];
                 const webpush = require('web-push');
                 const express = require('express');
                 const cors = require('cors')
@@ -379,7 +375,7 @@ async function notificacionporhora() {
                 }
                 
                 webpush.setVapidDetails(
-                    'mailto:corportativo@Greenpark.mx',
+                    'mailto:corportativo@fibrax.mx',
                     vapidKeys.publicKey,
                     vapidKeys.privateKey
                 );
@@ -395,7 +391,7 @@ async function notificacionporhora() {
                             "title": Mensaje,
           
                             "badge": "💵",
-                            "icon": Dominio+"asesores/assets/Fibrax-app--logo1-modified.png",
+                            "icon": "https://fibraxinversiones.mx/asesores/assets/icons/Fibrax-app--logo1-modified.png",
                             "vibrate": [100, 50, 100],
                             "image": imagenes,
                             "actions": [   
@@ -461,7 +457,7 @@ async function notificacionagenda(data) {
                 
                 if (recordset) {
             var cron = require('node-cron');
-            console.log(recordset)
+           
             cron.schedule('* * * * *', () => {
             for(let i=0 ; i < recordset[0].length;i++ ){
                 let data = new Date();
@@ -474,14 +470,14 @@ async function notificacionagenda(data) {
                 a = JSON.parse(recordset[0][i].llave);
                 if(recordset[0][i].Link == undefined || recordset[0][i].Link == ' ' || recordset[0][i].Link == null ||recordset[0][i].Link == 'undefined' || recordset[0][i].Link == 'null'){     
                     if(recordset[0][i].identificacion == 2){
-                        URL = Dominio + "inversionistas/crm";    
+                        URL = "https://fibraxinversiones.mx/inversionistas/crm";    
                     }else{
-                        URL = Dominio + "asesores/app/inicio";
+                        URL = "https://fibraxinversiones.mx/asesores/app/inicio";
                     }
                 }else{
                     URL = recordset[0][i].Link;
                 }
-                let imagenes = [Dominio+'assets/img/Img-Notificaciones/'+recordset[0][i].imagen];
+                let imagenes = ['https://fibraxinversiones.mx/assets/img/Img-Notificaciones/'+recordset[0][i].imagen];
                 const webpush = require('web-push');
                 const express = require('express');
                 const cors = require('cors')
@@ -495,7 +491,7 @@ async function notificacionagenda(data) {
                 }
                 
                 webpush.setVapidDetails(
-                    'mailto:corportativo@greenpark.mx',
+                    'mailto:corportativo@fibrax.mx',
                     vapidKeys.publicKey,
                     vapidKeys.privateKey
                 );
@@ -511,7 +507,7 @@ async function notificacionagenda(data) {
                             "title": recordset[0][i].Titulo,
                             "body": recordset[0][i].Texto,
                             "badge": "💵",
-                            "icon":  Dominio + "asesores/assets/Fibrax-app--logo1-modified.png",
+                            "icon": "https://fibraxinversiones.mx/asesores/assets/icons/Fibrax-app--logo1-modified.png",
                             "vibrate": [100, 50, 100],
                             "image": imagenes,
                             "actions": [   
@@ -572,7 +568,7 @@ try{
 }
 async function eliminarmensaje(data){
     try{
-        console.log(data.data)
+   
         const connection = await new sql.ConnectionPool(config).connect();
         const user = await connection
             .request()

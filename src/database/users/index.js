@@ -32,7 +32,7 @@ async function Registrar(data) {
             .then(async (dbData) => {
                 const recordset = dbData.recordset;
                 if (recordset) {
-                    console.log(recordset);
+                  
                     if (recordset[0].Valor == 1) {
                         return { user: recordset, message: 'Empresa registrada correctamente' };
                     } else {
@@ -181,7 +181,7 @@ async function validateMail(data) {
         await connection.close();
         return validate;
     } catch (error) {
-        console.log(error);
+       
         return { error: true, message: error.message };
     }
 }
@@ -230,7 +230,7 @@ async function checkOldPass(data) {
         await connection.close();
         return pass;
     } catch (error) {
-        console.log(error.message);
+        
         return { error: true, message: error.message }
     }
 }
@@ -412,7 +412,7 @@ async function MailValidate(data) {
         await connection.close();
         return validate;
     } catch (error) {
-        console.log(error);
+      
         return { error: true, message: error.message };
     }
 }
@@ -447,7 +447,7 @@ async function updateFotoUsuario(data) {
             .input('Foto', sql.VarChar(100), data.Foto)
             .execute('CRM_CambiarFotoPerfilUsuario')
             .then((dbData) => {
-                console.log(dbData);
+              
                 if (dbData.rowsAffected[0] > 0) {
                     return dbData.recordset[0];
                 } else {
@@ -471,7 +471,7 @@ async function updateFotoUsuario2(data) {
             .input('Foto', sql.NVarChar(100), data.Foto)
             .execute('WA_SubirFotoPerfilPersona')
             .then((dbData) => {
-                console.log(dbData.recordset);
+               
                 if (dbData.recordset) {
                     return { updated: true };
                 } else {
@@ -495,7 +495,7 @@ async function updateFotoPortada(data) {
             .input('Foto', sql.NVarChar(100), data.Foto)
             .execute('WA_SubirFotoPortadaPersona')
             .then((dbData) => {
-                console.log(dbData.recordset);
+               
                 if (dbData.recordset) {
                     return { updated: true };
                 } else {
@@ -519,7 +519,7 @@ async function uploadDocumento(data) {
             .input("Img_Archivo", sql.NVarChar(255), data.Img_Archivo)
             .execute("HR_InsertarArchivoPorId")
             .then((dbData) => {
-                console.log(dbData.recordset);
+               
                 if (dbData.recordset) {
                     return { uploaded: true };
                 } else {

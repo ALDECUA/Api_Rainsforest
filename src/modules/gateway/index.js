@@ -9,24 +9,24 @@ router.post("/stripe", koaBody(), async function (context) {
 
         const fondos = {
 
-            "0": "https://greenpark.mx/dist/slider.c6e9fa13.jpg",
-            "1": "https://greenpark.mx/dist/slider.c6e9fa13.jpg",
-            "2": "https://greenpark.mx/dist/slider.c6e9fa13.jpg",
-            "3": "https://greenpark.mx/newDesign/assets/images/zazil.jpg",
-            "4": "https://greenpark.mx/newDesign/assets/images/koomuna.jpg",
-            "5": "https://greenpark.mx/newDesign/assets/images/via.jpg",
-            "6": "https://greenpark.mx/newDesign/assets/images/horizontes-slider.jpg",
-            "7": "https://greenpark.mx/dist/slider.c6e9fa13.jpg",
-            "8": "https://greenpark.mx/newDesign/assets/images/slider.jpg",
-            "9": "https://greenpark.mx/newDesign/assets/images/mantra-slider.jpg",
-            "11": "https://greenpark.mx/newDesign/assets/images/Slider-Kunal.jpg"
+            "0": "https://fibraxinversiones.mx//dist/slider.c6e9fa13.jpg",
+            "1": "https://fibraxinversiones.mx/dist/slider.c6e9fa13.jpg",
+            "2": "https://fibraxinversiones.mx/dist/slider.c6e9fa13.jpg",
+            "3": "https://fibraxinversiones.mx/newDesign/assets/images/zazil.jpg",
+            "4": "https://fibraxinversiones.mx/newDesign/assets/images/koomuna.jpg",
+            "5": "https://fibraxinversiones.mx/newDesign/assets/images/via.jpg",
+            "6": "https://fibraxinversiones.mx/newDesign/assets/images/horizontes-slider.jpg",
+            "7": "https://fibraxinversiones.mx/dist/slider.c6e9fa13.jpg",
+            "8": "https://fibraxinversiones.mx/newDesign/assets/images/slider.jpg",
+            "9": "https://fibraxinversiones.mx/newDesign/assets/images/mantra-slider.jpg",
+            "11": "https://fibraxinversiones.mx/newDesign/assets/images/Slider-Kunal.jpg"
         };
 
         const datos = context.request.body;
-        console.log(datos);
+     
 
-        let backurl = datos.backurl !== undefined ? datos.backurl : 'https://greenpark.mx/central-de-pagos?stripe=success';
-        let cancelurl = datos.cancelurl !== undefined ? datos.cancelurl : 'https://greenpark.mx/central-de-pagos';
+        let backurl = datos.backurl !== undefined ? datos.backurl : 'https://fibraxinversiones.mx/central-de-pagos?stripe=success';
+        let cancelurl = datos.cancelurl !== undefined ? datos.cancelurl : 'https://fibraxinversiones.mx/central-de-pagos';
 
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -37,7 +37,7 @@ router.post("/stripe", koaBody(), async function (context) {
                     images: [fondos[datos.Desarrollo] + ''],
                     quantity: 1,
                     amount: datos.Total,
-                    description: datos.Descripcion//'https://greenpark.mx/dist/slider.c6e9fa13.jpg'
+                    description: datos.Descripcion//'https://fibraxinversiones.mx/dist/slider.c6e9fa13.jpg'
                 },
             ],
             mode: 'payment',
@@ -58,23 +58,23 @@ router.post("/stripe_subscription", koaBody(), async function (context) {
 
         const fondos = {
 
-            "0": "https://greenpark.mx/dist/slider.c6e9fa13.jpg",
-            "1": "https://greenpark.mx/dist/slider.c6e9fa13.jpg",
-            "2": "https://greenpark.mx/dist/slider.c6e9fa13.jpg",
-            "3": "https://greenpark.mx/newDesign/assets/images/zazil.jpg",
-            "4": "https://greenpark.mx/newDesign/assets/images/koomuna.jpg",
-            "5": "https://greenpark.mx/newDesign/assets/images/via.jpg",
-            "6": "https://greenpark.mx/newDesign/assets/images/horizontes-slider.jpg",
-            "7": "https://greenpark.mx/dist/slider.c6e9fa13.jpg",
-            "8": "https://greenpark.mx/newDesign/assets/images/slider.jpg",
-            "9": "https://greenpark.mx/newDesign/assets/images/mantra-slider.jpg",
-            "11": "https://greenpark.mx/newDesign/assets/images/Slider-Kunal.jpg"
+            "0": "https://fibraxinversiones.mx/dist/slider.c6e9fa13.jpg",
+            "1": "https://fibraxinversiones.mx/dist/slider.c6e9fa13.jpg",
+            "2": "https://fibraxinversiones.mx/dist/slider.c6e9fa13.jpg",
+            "3": "https://fibraxinversiones.mx/newDesign/assets/images/zazil.jpg",
+            "4": "https://fibraxinversiones.mx/newDesign/assets/images/koomuna.jpg",
+            "5": "https://fibraxinversiones.mx/newDesign/assets/images/via.jpg",
+            "6": "https://fibraxinversiones.mx/newDesign/assets/images/horizontes-slider.jpg",
+            "7": "https://fibraxinversiones.mx/dist/slider.c6e9fa13.jpg",
+            "8": "https://fibraxinversiones.mx/newDesign/assets/images/slider.jpg",
+            "9": "https://fibraxinversiones.mx/newDesign/assets/images/mantra-slider.jpg",
+            "11": "https://fibraxinversiones.mx/newDesign/assets/images/Slider-Kunal.jpg"
         };
 
         const datos = context.request.body;
 
-        let backurl = datos.backurl !== undefined ? datos.backurl : 'https://greenpark.mx/central-de-pagos';
-        let cancelurl = datos.cancelurl !== undefined ? datos.cancelurl : 'https://greenpark.mx/central-de-pagos';
+        let backurl = datos.backurl !== undefined ? datos.backurl : 'https://fibraxinversiones.mx/central-de-pagos';
+        let cancelurl = datos.cancelurl !== undefined ? datos.cancelurl : 'https://fibraxinversiones.mx/central-de-pagos';
 
         const session = await stripe.checkout.sessions.create({
             mode: 'subscription',
@@ -143,7 +143,7 @@ router.get("/stripe_cancel_expired_sub", koaBody(), async function (context) {
         const res = await db.subsporvencer();
 
         if (res.error !== true) {
-            console.log('entrando');
+         
             res.forEach(async (elem) => {
                 await stripe.subscriptions.del(elem.IdSub);
             });

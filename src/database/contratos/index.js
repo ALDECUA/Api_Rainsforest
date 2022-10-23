@@ -112,7 +112,7 @@ async function obtenerDocumentoDigital(idHR) {
         const connection = await new sql.ConnectionPool(config).connect();
         const contrato = await connection
             .request()
-            .input("IdHR", sql.Int, idHR)
+            .input("idHR", sql.Int, idHR)
             .execute("sp_GenerarContrato")
             .then((dbData) => {
                 const recordset = dbData.recordset;
@@ -207,12 +207,12 @@ async function crearContrato(data) {
         const contrato = await connection
             .request()
             .input("Nombre", sql.NVarChar, data.Nombre)
-            .input("Machote", sql.NVarChar, data.Machote || null)
-            .input("Clausula3", sql.Text, data.Clausula3|| null)
-            .input("Clausula4", sql.Text, data.Clausula4|| null)
-            .input("Clausula5", sql.Text, data.Clausula5|| null)
-            .input("Activo", sql.Int, data.Activo|| null)
-            .input("user_add", sql.Int, data.user_add|| null)
+            .input("Machote", sql.NVarChar, data.Machote)
+            .input("Clausula3", sql.Text, data.Clausula3)
+            .input("Clausula4", sql.Text, data.Clausula4)
+            .input("Clausula5", sql.Text, data.Clausula5)
+            .input("Activo", sql.Int, data.Activo)
+            .input("user_add", sql.Int, data.user_add)
             .execute("DES_Contratos_crear")
             .then((dbData) => {
                 const recordset = dbData.recordset;
@@ -294,8 +294,33 @@ async function setContratoFirmado(data) {
         const connection = await new sql.ConnectionPool(config).connect();
         const contrato = await connection
             .request()
+            .input("IdHR2", sql.Int, data.IdHR)
             .input("IdRequi", sql.NVarChar, data.id)
             .execute("Contratos_Status_Firmar")
+            .then((dbData) => {
+                const recordset = dbData.recordset;
+                if (recordset) {
+                    return { updated: true };
+                }
+            });
+
+        connection.close();
+        return contrato;
+    } catch (error) {
+        return { error: true, message: error.message };
+    }
+}
+
+async function ContratoRanking(data) {
+    try {
+        const connection = await new sql.ConnectionPool(config).connect();
+        const contrato = await connection
+            .request()
+            .input("IdHR", sql.Int, data.IdHR)
+            .input("IdStatusR", sql.Int, data.IdStatusR)            
+            .input("Nombre", sql.NVarChar(50), data.Nombre)
+            .input("fechafirma", sql.NVarChar(50), data.fechafirma)
+            .execute("CRM_Contrato_R")
             .then((dbData) => {
                 const recordset = dbData.recordset;
                 if (recordset) {
@@ -537,7 +562,7 @@ async function verificar_contrato(data) {
             .execute("CRM_verificar_contrato")
             .then((dbData) => {
                 const recordset = dbData.recordset;
-                console.log(recordset);
+               
                 if (recordset) {
                     return recordset;
                 } else {
@@ -601,5 +626,6 @@ module.exports = {
     obtenerContratoParaVerificar,
     aceptarClausulaContrato,
     verificar_contrato,
-    llenarCelda
+    llenarCelda,
+    ContratoRanking
 }

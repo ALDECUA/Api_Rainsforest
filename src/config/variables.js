@@ -11,7 +11,7 @@ process.env.IDAPP = 'Cancun2019';
 process.env.TZ = 'America/Cancun';
 
 if (process.env.NODE_ENV === "production") {
-    process.env.CRM = 'https://greenpark.mx/angularcrm/crm';
+    process.env.CRM = 'https://fibraxinversiones.mx/angularcrm/crm/';
 } else {
-    process.env.CRM = 'https://greenpark.mx/angularcrm/crm';
+    process.env.CRM = 'https://fibraxinversiones.mx/angularcrm/crm/';
 }

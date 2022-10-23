@@ -13,6 +13,15 @@ router.get("/:idDesarrollo", koaBody(), async function(context) {
     }
 });
 
+router.get("/WA/:idDesarrollo", koaBody(), async function(context) {
+    try {
+        let data = context.params.idDesarrollo;
+        context.body = await db.WA_obtenerFases(data);
+    } catch (error) {
+        context.body = { error: true, message: error.message };
+    }
+});
+
 router.get("/by/:id", koaBody(), async function(context) {
     try {
         let data = context.params.id;
@@ -34,7 +43,7 @@ router.post("/editar", koaBody({multipart: true}), async function(context) {
 router.post("/crear", koaBody(), async function(context) {
     try {
         let data = context.request.body;
-        console.log(data);
+     
         context.body = await db.crearFase(data);
     } catch (error) {
         context.body = { error: true, message: error.message };

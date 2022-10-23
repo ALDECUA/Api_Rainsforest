@@ -93,7 +93,7 @@ async function editarEmpresa(data) {
             .input("GeneralesApoderado", sql.Text, data.GeneralesApoderado)
             .execute("DES_Empresas_editar")
             .then((dbData) => {
-                console.log(dbData.recordsets);
+                
                 const rowsAffected = dbData.rowsAffected;
 
                 if (rowsAffected[0] > 0) {
@@ -125,7 +125,7 @@ async function editarEmpresalegal(data) {
             .input("GeneralesApoderado", sql.Text, data.GeneralesApoderado)
             .execute("DES_Empresas_editarlegal")
             .then((dbData) => {
-                console.log(dbData.recordsets);
+                
                 const rowsAffected = dbData.rowsAffected;
 
                 if (rowsAffected[0] > 0) {
@@ -151,7 +151,7 @@ async function crearEmpresa(data) {
         const empresa = await connection
             .request()
             .input("RazonSocial", sql.NVarChar, data.RazonSocial)
-            .input("user_add", sql.NVarChar(50), data.usuario || null)
+            .input("user_add", sql.NVarChar(50), data.usuario)
             .input("Mandatario", sql.NVarChar, data.Mandatario)
             .input("Apoderado", sql.NVarChar, data.Apoderado)
             .input("GeneralesApoderado", sql.Text, data.GeneralesApoderado)

@@ -9,11 +9,11 @@ const koaRouter = require("koa-router");
 const router = new koaRouter();
 
 router.get("/", async function (context) {
-    context.body = "GPI API TEST";
+    context.body = "Rainforest api TEST";
 });
 
 router.get("/test", async function (context) {
-    context.body = "GPI API";
+    context.body = "Rainforest api";
 });
 
 module.exports = router;

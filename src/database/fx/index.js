@@ -66,7 +66,7 @@ async function InsertarInteresadoCOP(data) {
 async function calculadoraInteres(data) {
   try {
     const connection = await new sql.ConnectionPool(config).connect();
-    console.log(data);
+  
     const result = await connection
       .request()
       .input("InversionInicial", sql.Float, data.InversionInicial || null)
@@ -75,7 +75,7 @@ async function calculadoraInteres(data) {
       .execute("FX_CalculadoraDeInteres")
       .then((dbData) => {
         const recordset = dbData.recordsets;
-        console.log(recordset);
+      
         if (recordset) {
           return recordset;
         } else {
@@ -116,7 +116,7 @@ async function FX_EjecutarVariosSP() {
 async function calculadoraCOP(data) {
   try {
     const connection = await new sql.ConnectionPool(config).connect();
-    console.log(data);
+  
     const result = await connection
       .request()
       .input("AnosInversion", sql.Int, data.AnosInversion)
@@ -127,7 +127,7 @@ async function calculadoraCOP(data) {
       .execute("COP_Calculadora2")
       .then((dbData) => {
         const recordset = dbData.recordsets;
-        console.log(recordset);
+       
         if (recordset) {
           return recordset;
         } else {
@@ -146,7 +146,7 @@ async function calculadoraCOP(data) {
 async function CrearInvitado(data) {
   try {
     const connection = await new sql.ConnectionPool(config).connect();
-    console.log(data);
+    
     const result = await connection
       .request()
       .input("Nombre", sql.NVarChar(500), data.Nombre)
@@ -164,7 +164,7 @@ async function CrearInvitado(data) {
       .execute("SV_CrearInvitado")
       .then((dbData) => {
         const recordset = dbData.recordset[0];
-        console.log(recordset);
+
         if (recordset) {
           return recordset;
         } else {
@@ -234,7 +234,7 @@ async function obtenerInvitados() {
 async function EditarInvitado(data) {
   try {
     const connection = await new sql.ConnectionPool(config).connect();
-    console.log(data);
+  
     const result = await connection
       .request()
       .input("Apellido_M", sql.NVarChar(100), data.Apellido_M || null)
@@ -274,7 +274,7 @@ async function EditarInvitado(data) {
       .execute("SV_EditarInvitado")
       .then((dbData) => {
         const recordset = dbData.recordset[0];
-        console.log(recordset);
+       
         if (recordset) {
           return recordset;
         } else {
@@ -293,7 +293,7 @@ async function EditarInvitado(data) {
 async function insertarSurvey(data) {
   try {
     const connection = await new sql.ConnectionPool(config).connect();
-    console.log(data);
+   
     const result = await connection
       .request()
       .input("IdPersona", sql.Int, data.IdPersona)
@@ -327,7 +327,7 @@ async function insertarSurvey(data) {
       .execute("SV_InsertarSurvey")
       .then((dbData) => {
         const recordset = dbData.recordset[0];
-        console.log(recordset);
+      
         if (recordset) {
           return recordset;
         } else {
@@ -496,6 +496,7 @@ async function obtenerLocacion() {
 
 async function obtenerDocumentos() {
   try {
+  
     const connection = await new sql.ConnectionPool(config).connect();
     const empresas = await connection
       .request()
@@ -507,11 +508,20 @@ async function obtenerDocumentos() {
             if (recordset[2][i] == undefined) {
               recordset[2][i] = { Foto: "noone.png" };
             }
+            if (recordset[3][i] == undefined) {
+              recordset[3][i] = { Foto: "noone.png" };
+            }
+            if (recordset[4][i] == undefined) {
+              recordset[4][i] = { Foto: "noone.png" };
+            }
           }
           return {
             archivos: recordset[0],
             notificaciones: recordset[1],
             TopAsesores: recordset[2],
+            TopPromotores: recordset[3],
+            TopScomercial: recordset[4],
+
           };
         } else {
           return {
@@ -641,6 +651,48 @@ async function tupatrimonioenelcaribe(data) {
   }
 }
 
+async function getrankingmes(mes) {
+  try {
+    const connection = await new sql.ConnectionPool(config).connect();
+    const empresas = await connection
+      .request()
+      .input("Mes", sql.Int, mes)
+      .execute("FX_DocumentosDrive")
+      .then((dbData) => {
+        const recordset = dbData.recordsets;
+        if (recordset) {
+          for (let i = 0; i < 3; i++) {
+            if (recordset[2][i] == undefined) {
+              recordset[2][i] = { Foto: "noone.png" };
+            }
+            if (recordset[3][i] == undefined) {
+              recordset[3][i] = { Foto: "noone.png" };
+            }
+            if (recordset[4][i] == undefined) {
+              recordset[4][i] = { Foto: "noone.png" };
+            }
+          }
+          return {
+          
+            TopAsesores: recordset[2],
+            TopPromotores: recordset[3],
+            TopScomercial: recordset[4],
+
+          };
+        } else {
+          return {
+            error: true,
+            message: "No se pudieron obtener los datos los tickets",
+          };
+        }
+      });
+
+    connection.close();
+    return empresas;
+  } catch (error) {
+    return { error: true, message: error.message };
+  }
+}
 module.exports = {
   InsertarInteresadoAviation,
   InsertarInteresadoCOP,
@@ -663,4 +715,5 @@ module.exports = {
   obtenerNumero,
   tupatrimonioenelcaribe,
   infoCotizador,
+  getrankingmes
 };

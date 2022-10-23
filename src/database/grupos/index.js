@@ -77,7 +77,7 @@ async function publicacion(data) {
       .input("Contenido", sql.NVarChar(sql.MAX), data.Contenido)
       .execute("FXG_Publicacion")
       .then((dbData) => {
-        console.log(data.IdPublicacion);
+      
         const recordset = dbData.recordset[0];
         if (recordset) {
           return { recordset};

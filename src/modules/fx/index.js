@@ -5,7 +5,7 @@ const db = require("../../database/fx/");
 const { enviar, enviarj, enviarJM, enviarxcaliburJM } = require("../../validar");
 const fs = require("fs");
 const Request = require("superagent");
-const Dominio = 'https://greenpark.mx/'
+
 
 router.post("/insertar", koaBody(), async function (context) {
   try {
@@ -20,8 +20,7 @@ router.post("/insertarCOP", koaBody(), async function (context) {
     let data = context.request.body;
     let destinatario = 'contacto@fibraxinversiones.mx';
     context.body = await db.InsertarInteresadoCOP(data);
-    console.log(data.Origen);
-    console.log(data);
+  
 
     if (data.Origen === 'fxinversiones') {
       await enviar(
@@ -184,7 +183,7 @@ router.post("/comisiones", koaBody(), async function (context) {
       html = html.replace("{tablauno}", data.tablauno);
       html = html.replace("{tablados}", data.tablados);
       html = html.replace("{tablatres}", data.tablatres);
-      await Request.post(Dominio+"api/storage/crearpdf_comisiones.php")
+      await Request.post("https://fibraxinversiones.mx/api/storage/crearpdf_comisiones.php")
       .set("Content-type", "application/json")
       .set("Accept", "application/json")
       .send({ documento: html })
@@ -203,7 +202,7 @@ router.post("/comisiones", koaBody(), async function (context) {
       let html = fs.readFileSync(__dirname + "/tablacomisionedos.html", "utf-8");
       html = html.replace("{tablauno}", data.tablauno);
       html = html.replace("{tablatres}", data.tablatres);
-      await Request.post(Dominio+"api/storage/crearpdf_comisiones.php")
+      await Request.post("https://fibraxinversiones.mx/api/storage/crearpdf_comisiones.php")
       .set("Content-type", "application/json")
       .set("Accept", "application/json")
       .send({ documento: html })
@@ -240,7 +239,7 @@ router.post("/cotizador", koaBody(), async function (context) {
     html = html.replace("{interesado}", data.Interesado);
 
     html = html.replace("{asesor}", data.Asesor);
-    await Request.post(Dominio+"api/storage/crearpdf.php")
+    await Request.post("https://fibraxinversiones.mx/api/storage/crearpdf.php")
       .set("Content-type", "application/json")
       .set("Accept", "application/json")
       .send({ documento: html })
@@ -253,7 +252,7 @@ router.post("/cotizador", koaBody(), async function (context) {
       .catch((error) => {
         console.log(error);
       });
-    console.log(data.EmailA, data.Email_IL, data.Email_SCom, data.Email_IS)
+    
     await enviarJM(
       {
         path: "Cotizador",
@@ -275,7 +274,7 @@ router.post("/cotizador", koaBody(), async function (context) {
       [data.EmailA, data.Email_IL, data.Email_SCom, data.Email_IS]
     );
     let guardar = await db.infoCotizador(data);
-    console.log(data.pdf)
+    
     context.body = [{ documento: data.pdf }];
   } catch (error) {
     context.body = { error: true, message: error.message };
@@ -480,7 +479,7 @@ router.post("/fichados", koaBody(), async function (context) {
 
     }
 
-    console.log(dataInfo);
+    
 
 
 
@@ -527,7 +526,7 @@ router.post("/fichados", koaBody(), async function (context) {
       []
     );
 
-    console.log(data);
+    
 
 
     context.body = [{ documento: data.pdf }]
@@ -549,7 +548,7 @@ router.post("/tupatrimonioenelcaribe", koaBody(), async function (context) {
     const data = context.request.body;
     let res = await db.tupatrimonioenelcaribe(data);
     if (!res.error) {
-      console.log(res);
+     
       await enviarJM(
         {
           path: "patrimoniodelcaribe",
@@ -574,7 +573,7 @@ router.post("/tupatrimonioenelcaribe", koaBody(), async function (context) {
 });
 router.post("/xcaliburJM", koaBody(), async function (context) {
   try {
-    console.log('entro');
+
     const data = context.request.body;
     datados = JSON.parse(data);
     if (data) {
@@ -597,6 +596,15 @@ router.post("/xcaliburJM", koaBody(), async function (context) {
     } else {
       context.body = false;
     }
+  } catch (error) {
+    context.body = { error: true, message: error.message };
+  }
+});
+router.get("/getrankignmeses/:mes", koaBody(), async function (context) {
+  try {
+    console.log(context.params.mes);
+    let mes = context.params.mes;
+    context.body = await db.getrankingmes(mes);
   } catch (error) {
     context.body = { error: true, message: error.message };
   }

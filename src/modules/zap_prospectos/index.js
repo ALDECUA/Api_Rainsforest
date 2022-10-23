@@ -53,9 +53,10 @@ router.get("/ObtenerProspectos", koaBody(), async function(context) {
     }
 })
 
-router.get("/ObtenerMensajePost", koaBody(), async function(context) {
+router.post("/ObtenerMensajePost", koaBody(), async function(context) {
     try {
-        context.body = await db.ObtenerMensajePost();
+        let data = context.request.body;
+        context.body = await db.ObtenerMensajePost(data);
     } catch (error) {
         context.body = { error: true, message: error.message };
 
@@ -104,6 +105,15 @@ router.post("/VerifiMsj", koaBody(), async function (context){
     try {
       let data = context.request.body;
       context.body = await db.VerifiMsj(data);
+    } catch (error) {
+      context.body = { error: true, message: error.message };
+    }
+})
+
+router.post("/BuzonMsn", koaBody(), async function (context){
+    try {
+      let data = context.request.body;
+      context.body = await db.BuzonMsj(data);
     } catch (error) {
       context.body = { error: true, message: error.message };
     }
@@ -218,6 +228,15 @@ router.post("/UpdateName/", koaBody(), async function(context) {
     try {
         const data = context.request.body;
         context.body = await db.updateName(data);
+    } catch (error) {
+        context.body = { error: true, message: error.message };
+    }
+})
+
+router.post("/InboxUpdate/", koaBody(), async function(context) {
+    try {
+        const data = context.request.body;
+        context.body = await db.UpdateInbox(data);
     } catch (error) {
         context.body = { error: true, message: error.message };
     }

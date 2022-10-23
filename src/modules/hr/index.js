@@ -9,9 +9,10 @@ const fs = require("fs");
 const Request = require("superagent");
 const { Router } = require("express");
 
-router.get("/personas", koaBody(), async function (context) {
+router.get("/personas/:numero", koaBody(), async function (context) {
   try {
-    context.body = await db.getPersonas();
+    const data = context.params.numero;
+    context.body = await db.getPersonas(data);
   } catch (error) {
     context.body = { error: true, message: error.message };
   }
@@ -30,7 +31,6 @@ router.get("/personasInv", koaBody(), async function (context) {
     context.body = { error: true, message: error.message };
   }
 });
-
 router.get("/personas_registradasPAGOS", koaBody(), async function (context) {
   try {
     context.body = await db.getInversionistasRegistradosPAGOS();
@@ -46,8 +46,13 @@ router.get("/personas_registradas", koaBody(), async function (context) {
     context.body = { error: true, message: error.message };
   }
 });
-
-
+router.get("/DesarrolloPreciototal", koaBody(), async function (context) {
+  try {
+    context.body = await db.DesarrolloPreciototal();
+  } catch (error) {
+    context.body = { error: true, message: error.message };
+  }
+});
 router.post("/insertar_persona", koaBody(), async function (context) {
   try {
     const data = context.request.body;
@@ -93,7 +98,7 @@ router.post("/insertar_hr", koaBody(), async function (context) {
        "agarcia@fibrax.mx" 
      
       );
-            console.log(res.record.EmailSC);
+           
       await enviarJM(
         {
           path: "NotificarInicioHrSC",
@@ -117,7 +122,7 @@ router.post("/insertar_hr", koaBody(), async function (context) {
       //Generar codigo y enviar al inversionista en case de tener referido
       if (data.IdReferido) {
         const folio = funs.genOfferCode();
-        console.log(folio, data.IdReferido);
+       
         await funs.putCode(folio, data.IdReferido);
         await enviarJM(
           {
@@ -196,7 +201,7 @@ router.post(
           await db.updateArchivoSP(datos[element]);
         }
       });
-      console.log("enviar correo");
+      
 
       // Enviar correo
       if (sendEmail) {
@@ -473,9 +478,6 @@ router.post("/insertar_referido", koaBody(), async function (context) {
   try {
     const data = context.request.body;
     const res = await db.InsertarReferidos(data);
-
-  if(data.Origenes == 2){
-
     await enviarJM(
       {
         path: "NuevoReferido",
@@ -508,42 +510,13 @@ router.post("/insertar_referido", koaBody(), async function (context) {
       data.Email 
     );
      context.body = res;
-  }else if(data.Origenes == 1){
-    await enviarJM(
-      {
-        path: "NotificarReferidoAsesor",
-        data: {
-          Nombre: res.Nombre,
-          idpersona: res.Nombre_dos,
-          Nombre_S: res.Nombre_S,
-          Apellido_P: res.Apellido_P,
-          Apellido_M: res.Apellido_M,
-          Num_Cel: res.Num_Tel,
-          Email: res.Email,
-        },
-      },
-      "Nuevo referido",
-      res.EMAIL_DOS
-    );
-    context.body = {inserted: true}
-  } 
 
-
-
-  
-   
-
+  context.body = {inserted: true}
   } catch (error) {
     context.body = { error: true, message: error.message };
   }
 });
-router.get("/DesarrolloPreciototal", koaBody(), async function (context) {
-  try {
-    context.body = await db.DesarrolloPreciototal();
-  } catch (error) {
-    context.body = { error: true, message: error.message };
-  }
-});
+
 router.get(
   "/obtener_referidos_inversionista/:id",
   koaBody({ multipart: true }),
@@ -621,7 +594,7 @@ router.post("/enviar_datos_sms", koaBody(), async function (context) {
           Text: `Tus datos de acceso son: 
                   Usuario: ${response.Email} 
                   Contraseña: ${response.Password}
-                  Enlace: https://greenpark.mx/inversionistas`,
+                  Enlace: https://fibraxinversiones.mx/inversionistas`,
           To: datos.Numero,
           From: "Fibrax Inversiones",
         })
@@ -705,6 +678,14 @@ router.post("/enviarContrato", koaBody(), async function (context) {
   try {
     const data = context.request.body;
     context.body = await db.enviarContrato(data);
+  } catch (error) {
+    context.body = { error: true, message: error.message };
+  }
+});
+router.post("/contratoGenerado", koaBody(), async function (context) {
+  try {
+    const data = context.request.body;
+    context.body = await db.contratoGenerado(data);
   } catch (error) {
     context.body = { error: true, message: error.message };
   }
@@ -857,5 +838,13 @@ router.post("/busquedaInv", koaBody(), async function (context){
   }
 })
 
+router.post("/buscarhrname", koaBody(), async function (context) {
+  try {
+    const data = context.request.body;
+    context.body = await db.buscarhrname(data);
+  } catch (error) {
+    context.body = { error: true, message: error.message };
+  }
+});
 
 module.exports = router;

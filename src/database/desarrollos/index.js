@@ -28,7 +28,7 @@ async function obtenerdesarrolloslotes() {
 }
 async function FiltrarLotes(data) {
     try {
-        console.log(data)
+       
         const connection = await new sql.ConnectionPool(config).connect();
         const user = await connection
             .request()
@@ -38,7 +38,7 @@ async function FiltrarLotes(data) {
             .then((dbData) => {
                 const recordset = dbData.recordset;
                 if (recordset) {
-                    console.log(recordset)
+                
                     return recordset
                 } else {
                     return {
@@ -144,9 +144,9 @@ async function crearDesarrollo(data) {
         const connection = await new sql.ConnectionPool(config).connect();
         const desarrollo = await connection
             .request()
-            .input("Desarrollo", sql.NVarChar, data.Desarrollo || null)
-            .input("Empresa", sql.Int, data.IdEmpresa || null)
-            .input("IdContrato", sql.Int, data.IdContrato || null)
+            .input("Desarrollo", sql.NVarChar, data.Desarrollo)
+            .input("Empresa", sql.Int, data.IdEmpresa)
+            .input("IdContrato", sql.Int, data.IdContrato)
             .execute("DES_Desarrollos_crear")
             .then((dbData) => {
                 const recordset = dbData.recordset;
@@ -286,6 +286,78 @@ async function insertarLogDrive(data) {
     }
 }
 
+async function insertar_desarrolloWebapp(data) {
+    try {
+        console.log(data);
+        const connection = await new sql.ConnectionPool(config).connect();
+        const desarrollo = await connection
+            .request()
+            .input("IdD", sql.Int, data.sel)
+            .input("NombreDesarrollo", sql.NVarChar(50), data.nombrePublico)
+            .input("Eslogan", sql.NVarChar(120), data.eslogan || null)
+            .input("Descripcion", sql.NVarChar(255), data.descripcion || null)
+            .input("DescripcionBreve", sql.NVarChar(255), data.descripcionBreve || null)
+            .input("FondoGrande", sql.NVarChar(255), data.fondoGrande || null)
+            .input("LinkBackground", sql.NVarChar(255), data.linkBackground || null)
+            .input("LinkLogo", sql.NVarChar(255), data.logoGrande || null)
+            .input("LinkLogoMini", sql.NVarChar(255), data.logoChico || null)
+            .input("ColorBotonA", sql.NVarChar(30), data.colorBtn || null)
+            .input("LinkPresentacion", sql.NVarChar(255), data.linkPresentacion || null)
+            .input("LinkLotificacion", sql.NVarChar(255), data.linkLotificacion || null)
+            .input("LinkInstagram", sql.NVarChar(255), data.linkInstagram || null)
+            .input("LinkFacebook", sql.NVarChar(255), data.linkFacebook || null)
+            .input("SitioWeb", sql.NVarChar(255), data.linkSitioWeb || null)
+            .input("EsNuevo", sql.Int, +data.esNuevo)
+            .input("LinkGoogleMaps", sql.NVarChar(255), data.ubicacion)
+            .input("HeaderCotizacion", sql.NVarChar(255), data.headerCotizacion || null)
+            .execute("CRM_AgregarInfoDesarrollos")
+            .then((dbData) => {
+                const recordset = dbData.recordset;
+                if (recordset[0]) {
+                    return recordset[0];
+                } else {
+                    return {
+                        error: true,
+                        message: "Error, información no actualizada",
+                    };
+                }
+            });
+
+        connection.close();
+        return desarrollo;
+    } catch (error) {
+        return { error: true, message: error.message };
+    }
+}
+
+async function obtener_desarrolloWebappInfo(id) {
+    try {
+        const connection = await new sql.ConnectionPool(config).connect();
+        const desarrollos = await connection
+            .request()
+            .input("IdDesarrollo", sql.Int, id)
+            .execute("CRM_CargarDesarrollosInfo")
+            .then((dbData) => {
+
+                const recordset = dbData.recordset;
+
+                if (recordset) {
+                    return  recordset;
+                } else {
+                    return {
+                        error: true,
+                        message: "No se pudio obtener la informacion.",
+                    };
+                }
+            });
+
+        connection.close();
+        return desarrollos;
+    } catch (error) {
+        return { error: true, message: error.message };
+    }
+}
+
 module.exports = {
     obtenerDesarrollos,
     obtenerDesarrollosById,
@@ -296,5 +368,7 @@ module.exports = {
     subirArchivoLegal,
     insertarLogDrive,
     obtenerdesarrolloslotes,
-    FiltrarLotes
+    FiltrarLotes,
+    insertar_desarrolloWebapp,
+    obtener_desarrolloWebappInfo
 };

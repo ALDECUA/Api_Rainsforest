@@ -128,7 +128,7 @@ async function VerificarIP(data) {
 
 async function ObtenerDocumentosFiltrados(data) {
   try {
-    console.log(data);
+  
     const connection = await new sql.ConnectionPool(config).connect();
 
     const lista = await connection
@@ -253,8 +253,7 @@ async function eliminarArchivoLegal(data) {
 async function editarArchivo(data) {
   try {
     const connection = await new sql.ConnectionPool(config).connect();
-    console.log('data---');
-    console.log(data);
+
     const lista = await connection
       .request()
       .input("IdArchivoDrive", sql.Int, data.IdArchivoDrive)

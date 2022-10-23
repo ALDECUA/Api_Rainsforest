@@ -1,6 +1,7 @@
 const config = require("../config");
 const sql = require("mssql");
 const { NULL } = require("mysql2/lib/constants/types");
+const { Notificaciones } = require("../../validar");
 
 async function listarprospectos() {
     try {
@@ -155,9 +156,9 @@ async function AsingarLead(data){
 }
 
 async function Asigandos(data) {
-    console.log(data);
+
     try {
-        const connection = await new sql.ConnectionPool(config).connect();
+        const connection = await new sql.ConnectionPool(config).connect();F
         const result = await connection
             .request()
             .input('ValorFecha', sql.Int, data.ValorFecha)
@@ -184,7 +185,7 @@ async function Asigandos(data) {
 }
 
 async function ReasignarLead(data) {
-    console.log(data);
+  
     try {
         const connection = await new sql.ConnectionPool(config).connect();
         const result = await connection
@@ -314,8 +315,10 @@ async function VerifiMsj(data) {
             .request()
             .input('IdPersona', sql.INT, data.IdPersona)
             .input('IdReceptor', sql.INT, data.IdReceptor)
+            .input('IdConversacion', sql.NVarChar(50), data.IdConversacion)
             .execute("ZAP_Verify_Mensajes")
             .then(async(dbData) => {
+                console.log(dbData);
                 const recordset = dbData.recordset;
                 if (recordset) {
                     return  recordset;
@@ -336,6 +339,7 @@ async function VerifiMsj(data) {
 
 async function ObtenerMensajePost(data) {
 
+
     try {
         const connection = await new sql.ConnectionPool(config).connect();
         const result = await connection
@@ -343,7 +347,37 @@ async function ObtenerMensajePost(data) {
             .input('IdPersona', sql.Int, data.IdPersona)
             .input('Tipo', sql.NVarChar(50), data.tipo)
             .input('Obtener', sql.NVarChar(50), data.Obtener)
+            .input('Nivel', sql.NVarChar(50), data.nivel)
             .execute("ZAP_ObtenerMensajePost")
+            .then(async(dbData) => {
+                const recordset = dbData.recordset;
+                if (recordset) {
+                    return recordset;
+                } else {
+                    return {
+                        error: true,
+                        message: "Error, no se encontraron los registros",
+                    };
+                }
+            });
+        connection.close();
+        return result;
+
+    } catch (error) {
+        return { error: true, message: error.message };
+    }
+}
+
+/*  */
+async function BuzonMsj(data) {
+    try {
+        const connection = await new sql.ConnectionPool(config).connect();
+        const result = await connection
+            .request()
+            .input('Id', sql.Int, data.Id)
+            .input('Nivel', sql.Int, data.Nivel)
+            .input('Tipo', sql.NVarChar(50), data.Tipo)
+            .execute("ZAP_BuzonMsjs")
             .then(async(dbData) => {
                 const recordset = dbData.recordset;
                 if (recordset) {
@@ -363,11 +397,10 @@ async function ObtenerMensajePost(data) {
     }
 }
 
-
 /* INSERTS */
 async function insertargrupos(data) {
     try {
-        console.log(data);
+       
         const connection = await new sql.ConnectionPool(config).connect();
         const result = await connection
             .request()
@@ -395,7 +428,7 @@ async function insertargrupos(data) {
 
 async function insertarpasos(data) {
     try {
-        console.log(data);
+       
         const connection = await new sql.ConnectionPool(config).connect();
         const result = await connection
             .request()
@@ -423,7 +456,7 @@ async function insertarpasos(data) {
 //Insertar mensajes
 async function insertarmensaje(data) {
     try {
-        console.log(data);
+   
         const connection = await new sql.ConnectionPool(config).connect();
         const result = await connection
             .request()
@@ -452,7 +485,7 @@ async function insertarmensaje(data) {
 //insertarMensajePost
 async function insertarMensajePost(data) {
     try {
-        console.log(data);
+   
         const connection = await new sql.ConnectionPool(config).connect();
         const result = await connection
             .request()
@@ -461,11 +494,22 @@ async function insertarMensajePost(data) {
             .input("Receptor", sql.Int, data.Receptor)
             .input("Tipo", sql.NVarChar(50), data.Tipo)
             .input("User", sql.NVarChar(50), data.User)
+            .input("IdConversacion", sql.NVarChar(50), data.IdConversacion)
+            .input("Whoiam", sql.Int, data.whoiam)
             .execute("ZAP_InsertarMensajePost")
-            .then((dbData) => {
-                const recordset = dbData.recordset;
+            .then(async (dbData) => {
+                const recordset = dbData.recordsets;
                 if (recordset) {
-                    return { inserted: 1, message: recordset };
+                    let imagenes = ['https://fibraxinversiones.mx/assets/img/Img-Notificaciones/Fibrax.jpg'];
+                    for(let i = 0; i < recordset[1].length ;i++){
+                    a = JSON.parse(recordset[1][i].llave);
+                        let   URL = "https://fibraxinversiones.mx/asesores/app/inicio";
+                        let  texto = data.Mensaje
+                        let titulo = 'Nuevo mensaje';
+                        await Notificaciones(a,texto,titulo,URL,imagenes);      
+                    }
+             
+                    return { inserted: 1, message: recordset[0] };
                 } else {
                     return {
                         error: true,
@@ -483,7 +527,7 @@ async function insertarMensajePost(data) {
 
 async function updatepasos(data) {
     try {
-        console.log(data);
+       
         const connection = await new sql.ConnectionPool(config).connect();
         const result = await connection
             .request()
@@ -513,7 +557,7 @@ async function updatepasos(data) {
 
 async function updatemensajes(data) {
     try {
-        console.log(data);
+    
         const connection = await new sql.ConnectionPool(config).connect();
         const result = await connection
             .request()
@@ -544,7 +588,7 @@ async function updatemensajes(data) {
 
 async function updatezona(data) {
     try {
-        console.log(data);
+      
         const connection = await new sql.ConnectionPool(config).connect();
         const result = await connection
             .request()
@@ -572,7 +616,7 @@ async function updatezona(data) {
 
 async function updateName(data) {
     try {
-        console.log(data);
+    
         const connection = await new sql.ConnectionPool(config).connect();
         const result = await connection
             .request()
@@ -606,7 +650,7 @@ async function updateName(data) {
 
 async function asignarpaso(data) {
     try {
-        console.log(data);
+    
         const connection = await new sql.ConnectionPool(config).connect();
         const result = await connection
             .request()
@@ -635,12 +679,41 @@ async function asignarpaso(data) {
 
 async function Saltarpaso(data) {
     try {
-        console.log(data);
+       
         const connection = await new sql.ConnectionPool(config).connect();
         const result = await connection
             .request()
             .input("Id", sql.Int, data.IdReferido)
             .execute("ZAP_SaltaPasos")
+            .then((dbData) => {
+                const recordset = dbData.recordset;
+                if (recordset) {
+                    return { updated: 1, message: recordset };
+                } else {
+                    return {
+                        error: true,
+                        message: "Error, no se encontraron registros",
+                    };
+                }
+            });
+        connection.close();
+        return result;
+    } catch (error) {
+        return { error: true, message: error.message };
+    }
+}
+
+
+//
+async function UpdateInbox(data) {
+    try {
+        console.log(data);
+        const connection = await new sql.ConnectionPool(config).connect();
+        const result = await connection
+            .request()
+            .input("IdConversacion", sql.NVarChar(50), data.IdConversacion)
+            .input("Whoiam", sql.Int, data.Whoiam)
+            .execute("ZAP_CheckBuzonUpdate")
             .then((dbData) => {
                 const recordset = dbData.recordset;
                 if (recordset) {
@@ -682,6 +755,8 @@ module.exports = {
     updateName,
     ObtenerMensajePost,
     VerifiMsj,
-    insertarMensajePost
+    insertarMensajePost,
+    BuzonMsj,
+    UpdateInbox
     
 }

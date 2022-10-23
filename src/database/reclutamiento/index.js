@@ -54,11 +54,11 @@ async function obtenerInversionistasLider(id) {
 
 async function obtenerInversionistasSenior(id) {
   try {
+    id == 'null' ? id = 0 : null;
     const connection = await new sql.ConnectionPool(config).connect();
-
     const lista = await connection
       .request()
-      .input("IdInversionistaLider", sql.Int, id || null)
+      .input("IdInversionistaLider", sql.Int, id || 0)
       .execute("R_ListarInversionistaSenior")
       .then(async (dbData) => {
         const recordset = dbData.recordset;
@@ -453,7 +453,7 @@ async function obtenerCumplesFiltrados(data) {
       .then(async (dbData) => {
         const recordset = dbData.recordsets;
         if (recordset) {
-          console.log(recordset[0]);
+         
           var nombre_doc = data.Mes + ".xlsx";
           var xls = json2xls(recordset[0]);
           fs.writeFileSync(nombre_doc, xls, "binary");
@@ -471,7 +471,7 @@ async function obtenerCumplesFiltrados(data) {
 
 async function Actualizar_Persona_reclutamiento(data) {
   try {
-    console.log(data);
+
     const connection = await new sql.ConnectionPool(config).connect();
     const insert = await connection
       .request()

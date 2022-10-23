@@ -5,24 +5,17 @@
  *  @description: Funciones asyncronas para las peticiones a bases de datos /paises
  */
  const webpush = require('web-push');
- const util = require('util');
+ 
  const cors = require('cors')
- require('util.promisify').shim();
  const bodyParser = require('body-parser'); 
  const fs = require('fs');
  const path = require('path');
 const config = require("../config");
-const readFileAsync = util.promisify(fs.readFile);
-const sql = require("mysql");
-const { constants } = require('buffer');
-const { callbackPromise } = require('nodemailer/lib/shared');
-
-
+const sql = require("mssql");
 
  
 async function sp_loginPrueba(data) {
     try {
-        console.log(data);
         const connection = await new sql.ConnectionPool(config).connect();
         const login = await connection
             .request()
@@ -55,12 +48,30 @@ async function sp_loginPrueba(data) {
     }
 }
 
-async function loginCrm(data) {}
+async function loginCrm(data) {
+    try {
+        const login = await config.query('SELECT * FROM userr WHERE Correo LIKE ? AND Pwd LIKE ? AND IdStatus = 1',[data.Correo,data.Pwd]);
+
+            if (login) {
+                if (login.length > 0) {
+                    return login[0];
+                } else {
+                    return { empty: true, message: "Error de credenciales" };
+                }
+            } else {
+                return { error: true, message: "Error interno" };
+            }
+        
+       
+    } catch (error) {
+        return { error: true, message: error.message };
+    }
+}
 
 async function loginInversionista(data) {
     try {
         const connection = await new sql.ConnectionPool(config).connect();
-        console.log("1");
+     
         const login = await connection
             .request()
             .input("Correo", sql.VarChar(254), data.Correo || null)
@@ -69,11 +80,11 @@ async function loginInversionista(data) {
             .input("Id", sql.Int, data.IdPersona || 0)
             .execute("InversionistasLogin")
             .then(async (dbData) => {
-                console.log("2");
+           
                 const recordset = dbData.recordsets;
                 if (recordset) {
                     if (recordset.length > 0) {
-                        console.log(recordset);
+                    
                         return {
                             persona: recordset[0][0],
                             archivos: recordset[1],
@@ -90,7 +101,7 @@ async function loginInversionista(data) {
         connection.close();
         return login;
     } catch (error) {
-        console.log("aqui");
+        
         return { error: true, message: error.message };
     }
 }

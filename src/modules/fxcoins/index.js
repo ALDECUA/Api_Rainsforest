@@ -91,7 +91,7 @@ router.post("/redimir_codigo", koaBody(), async function(context) {
         const res = await db.CanjearCodigo(data); //{ error: false } //a
         if (res.error !== true) {
             const datos = {...res[0][0], ...res[1][0] };
-            console.log(datos);
+           
 
             if (data.Recompensa === 1) {
                 datos['Recompensa'] = 'Mensualidad de villamar para el lote seleccionado';
@@ -131,7 +131,7 @@ router.get("/generar_recibo", koaBody(), async function(context) {
 
     try {
         let html = fs.readFileSync(__dirname + '/recibo.html', 'utf-8');
-        console.log(html);
+      
 
         html = html.replace('{nombrecliente}', 'Victor');
         html = html.replace('{cantidadtotal}', '100');
@@ -146,7 +146,7 @@ router.get("/generar_recibo", koaBody(), async function(context) {
         html = html.replace('{cantidad}', '1');
         html = html.replace('{precioproducto}', '100');
 
-        await Request.post(Dominio+'api/storage/generar_recibo.php')
+        await Request.post('https://fibraxinversiones.mx/api/storage/generar_recibo.php')
             .set('Content-type', 'application/json')
             .set('Accept', 'application/json')
             .send({ documento: html })
@@ -167,8 +167,8 @@ router.post("/reporte_coins", koaBody(), async function(context) {
         const data = context.request.body;
         let html = fs.readFileSync(__dirname + '/reporte_fxcoins.html', 'utf-8');
         html = html.replace('{registros}', data.fxcoins);
-        console.log(html);
-        await Request.post(Dominio+'api/storage/generar_recibo.php')
+    
+        await Request.post('https://fibraxinversiones.mx/api/storage/generar_recibo.php')
             .set('Content-type', 'application/json')
             .set('Accept', 'application/json')
             .send({ documento: html })
@@ -200,8 +200,8 @@ router.post("/reporte_global", koaBody(), async function(context) {
         html = html.replace('{registros.activos}', data.activos);
         html = html.replace('{registros.inactivos}', data.inactivos);
         html = html.replace('{registros.inversionista}', data.inversionistas);
-        console.log(html);
-        await Request.post('https://greenpark.mx/api/storage/generar_recibo.php')
+       
+        await Request.post('https://fibraxinversiones.mx/api/storage/generar_recibo.php')
             .set('Content-type', 'application/json')
             .set('Accept', 'application/json')
             .send({ documento: html })
@@ -220,7 +220,7 @@ router.post("/reporte_global", koaBody(), async function(context) {
 router.post("/reciboCustom", koaBody(), async function(context) {
     try {
         const data = context.request.body;
-        console.log(data);
+        
         let html = fs.readFileSync(__dirname + '/reciboCustom.html', 'utf-8');
         html = html.replace('{tituloCat}', data.tituloCat);
         html = html.replace('{nombre}', data.nombre);
@@ -235,8 +235,7 @@ router.post("/reciboCustom", koaBody(), async function(context) {
         html = html.replace('{fecha}', data.fecha);
         html = html.replace('{comentarios}', data.comentarios);
 
-        console.log(data.email);
-        await Request.post('https://greenpark.mx/api/storage/generate_mail_pdf.php')
+        await Request.post('https://fibraxinversiones.mx/api/storage/generate_mail_pdf.php')
             .set('Content-type', 'application/json')
             .set('Accept', 'application/json')
             .send({ documento: html, cliente: data.email })

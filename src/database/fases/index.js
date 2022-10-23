@@ -29,6 +29,33 @@ async function obtenerFases(data) {
     }
 }
 
+async function WA_obtenerFases(data) {
+    try {
+        const connection = await new sql.ConnectionPool(config).connect();
+        const fases = await connection
+            .request()
+            .input("IdDesarrollo", sql.Int, data)
+            .execute("WA_Fases_obtener")
+            .then((dbData) => {
+				const recordset = dbData.recordset;
+
+                if (recordset) {
+                    return { fases: recordset };
+                } else {
+                    return {
+                        error: true,
+                        message: "No se pudieron actualizar los datos de empresa.",
+                    };
+                }
+            });
+
+        connection.close();
+        return fases;
+    } catch (error) {
+        return { error: true, message: error.message };
+    }
+}
+
 async function obtenerFasesById(id) {
 	try {
         const connection = await new sql.ConnectionPool(config).connect();
@@ -92,9 +119,9 @@ async function crearFase(data) {
         const connection = await new sql.ConnectionPool(config).connect();
         const fase = await connection
             .request()
-			.input("Fase", sql.NVarChar, data.Fase || null)
-			.input("Activo", sql.INT, data.Activo || 1 || null)
-            .input("IdDesarrollo", sql.INT, data.IdDesarrollo || null)
+			.input("Fase", sql.NVarChar, data.Fase)
+			.input("Activo", sql.INT, data.Activo || 1)
+            .input("IdDesarrollo", sql.INT, data.IdDesarrollo)
             .execute("DES_Fases_crear")
             .then((dbData) => {
 				const recordset = dbData.recordset;
@@ -120,5 +147,6 @@ module.exports = {
     obtenerFases,
 	obtenerFasesById,
 	editarFase,
-	crearFase
+	crearFase,
+    WA_obtenerFases
 };

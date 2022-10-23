@@ -16,7 +16,7 @@ async function enviar(
   );
   /* Opciones de email  */
   const mailOptions = {
-    from: "notificaciones@greenpark.mx", //Remitente
+    from: "notificaciones@fibrax.mx", //Remitente
     to: customermail, //Destinatario
     cc: copies,
     // bcc: copiaoculta,						//Copia Oculta
@@ -30,7 +30,7 @@ async function enviar(
       "X-Priority": "3",
       "Reply-To": customermail,
       "Return-Path": customermail,
-      From: "notificaciones@greenpark.mx",
+      From: "notificaciones@fibrax.mx",
     },
   };
 
@@ -38,7 +38,7 @@ async function enviar(
   const result = await email
     .sendMail(mailOptions)
     .then((info) => {
-      console.log(info.response);
+     
       return info.response;
     })
     .catch((error) => {
@@ -128,8 +128,8 @@ async function enviarJM(
       Messages: [
         {
           From: {
-            Email: "notificaciones@greenpark.mx",
-            Name: "Notificiaciones Green Park",
+            Email: "notificaciones@fibraxlife.mx",
+            Name: "Notificiaciones Fibrax",
           },
           To: [
             {
@@ -160,7 +160,6 @@ async function Notificaciones(keys, texto, titulo, url, imagenes) {
   const cors = require("cors");
   const bodyParser = require("body-parser");
   const app = express();
-  const Dominio = "https://greenpark.mx/"
   const vapidKeys = {
     publicKey:
       "BBH4b0eYUzw_2QCJ1-1I_07bkn-RzdnZTxmbLvrgGeNLb0zdUdXkvdOv0P4zI6vSoZolcXUcteD23EqVyo0oSkE",
@@ -169,7 +168,7 @@ async function Notificaciones(keys, texto, titulo, url, imagenes) {
   app.use(cors());
   app.use(bodyParser.json());
   webpush.setVapidDetails(
-    "mailto:corportativo@greenpark.mx",
+    "mailto:corportativo@fibraxinversiones.mx",
     vapidKeys.publicKey,
     vapidKeys.privateKey
   );
@@ -185,7 +184,7 @@ async function Notificaciones(keys, texto, titulo, url, imagenes) {
       title: titulo,
       body: texto,
       badge: "💵",
-      icon: Dominio+"asesores/assets/Fibrax-app--logo1-modified.png",
+      icon: "https://fibraxinversiones.mx/asesores/assets/icons/Fibrax-app--logo1-modified.png",
       vibrate: [100, 50, 100],
       image: imagenes,
       actions: [

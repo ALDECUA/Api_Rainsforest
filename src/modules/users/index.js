@@ -38,7 +38,7 @@ router.post("/loginfacebook", koaBody(), async function (context) {
         const data = context.request.body;
         context.body = await db.loginFacebook(data);
     } catch (error) {
-        console.log(error.message);
+     
         context.body = { error: true, message: error.message };
     }
 });
@@ -58,9 +58,9 @@ router.post("/recover", koaBody(), async function (context) {
         const validation = await db.validateMail(data);
         arrayDatos.push(validation.info);
         context.body = validation;
-        console.log(arrayDatos);
+    
     } catch (error) {
-        console.log(error.message);
+        
         context.body = { error: true, message: error.message };
     }
 });
@@ -136,9 +136,9 @@ router.post("/validar", koaBody(), async function (context) {
         const validation = await db.MailValidate(data);
         arrayDatos.push(validation.info);
         context.body = validation;
-        console.log(arrayDatos);
+    
     } catch (error) {
-        console.log(error.message);
+       
         context.body = { error: true, message: error.message };
     }
 });
@@ -155,7 +155,7 @@ router.post("/updatestatus", koaBody(), async function (context) {
 router.post("/updatefotostatus", koaBody(), async function (context) {
     try {
         let data = context.request.body;
-        console.log(data);
+        
         context.body = await db.updateFotoUsuario(data);
     } catch (error) {
         context.body = { error: true, message: error.message };

@@ -27,7 +27,7 @@ async function listarLotes() {
 }
 async function EliminarColumna(a) {
   try { 
-    console.log(a)
+   
     const connection = await new sql.ConnectionPool(config).connect();
     const result = await connection
       .request()
@@ -98,6 +98,33 @@ async function ObtenerNiveles() {
   }
 }
 
+async function ObtenerComisiones(data) {
+  try { 
+    const connection = await new sql.ConnectionPool(config).connect();
+    const result = await connection
+      .request()
+      .input("Mes", sql.Int, data.Mes)
+      .input("Opcion", sql.Int, data.Opcion)
+      .input("IdSC", sql.Int, data.IdSC || null)
+      .execute("CRM_ObtenerComisiones2")
+      .then((dbData) => {
+        const recordset = dbData.recordset;
+        if (recordset) {
+          return recordset;
+        } else {
+          return {
+            error: true,
+            message: "Error, no se encontraron los registros",
+          };
+        }
+      });
+    connection.close();
+    return result;
+  } catch (error) {
+    return { error: true, message: error.message };
+  }
+}
+
 async function volumenHR(data) {
   try {
     const connection = await new sql.ConnectionPool(config).connect();
@@ -126,7 +153,7 @@ async function volumenHR(data) {
 }
 async function InsertarComisiones(data) {
   try {
-    console.log(data,"Insertar comisiones");
+   
     const connection = await new sql.ConnectionPool(config).connect();
     const result = await connection
       .request()
@@ -163,7 +190,7 @@ async function InsertarComisiones(data) {
 
 async function InsertarNuevoNivel(data) {
   try {
-    console.log(data,"Insertar comisiones");
+  
     const connection = await new sql.ConnectionPool(config).connect();
     const result = await connection
       .request()
@@ -173,7 +200,7 @@ async function InsertarNuevoNivel(data) {
       .then((dbData) => {
         const recordset = dbData.recordset;
         if (recordset) {
-          console.log(recordset)
+         
           return recordset;
         } else {
           return {
@@ -594,6 +621,7 @@ module.exports = {
   ReportesCotizaciones,
   ReportesCotizacionesCRM,
   ObtenerNiveles,
+  ObtenerComisiones,
   InsertarComisiones,
   InsertarNuevoNivel,
   InsertarColumna,

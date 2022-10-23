@@ -14,7 +14,6 @@
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.19.2",
-    "circular-json": "^0.5.9",
     "co-busboy": "^1.4.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -35,14 +34,13 @@
     "koa2-cors": "^2.0.6",
     "moment-timezone": "^0.5.31",
     "mssql": "^5.1.0",
-    "mysql": "^2.18.1",
-    "mysql2": "^1.6.5",
+    "mysql2": "^1.7.0",
     "node-cron": "^2.0.3",
     "node-excel-export": "^1.4.4",
     "node-mailjet": "^3.3.7",
     "nodejs-file-downloader": "^4.7.2",
     "nodemailer": "^6.4.11",
-    "nodemon": "^2.0.20",
+    "nodemon": "^2.0.12",
     "openpay": "^1.0.5",
     "opn": "^6.0.0",
     "packages": "0.0.8",
@@ -50,8 +48,7 @@
     "stripe": "^8.188.0",
     "superagent": "^5.2.1",
     "twilio": "^3.35.0",
-    "util.promisify": "^1.1.1",
-    "web-push": "^3.5.0",
+    "web-push": "^3.4.5",
     "xlsx": "^0.17.1"
   }
 }

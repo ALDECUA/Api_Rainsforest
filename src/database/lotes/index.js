@@ -3,7 +3,7 @@ const sql = require("mssql");
 const fs = require('fs');
 
 async function obtenerLotes(data) {
-    console.log(data);
+  
     try {
         const connection = await new sql.ConnectionPool(config).connect();
         const lotes = await connection
@@ -32,7 +32,7 @@ async function obtenerLotes(data) {
 }
 
 async function obtenerLotesHR(data) {
-    console.log(data);
+   
     try {
         const connection = await new sql.ConnectionPool(config).connect();
         const lotes = await connection
@@ -139,7 +139,7 @@ async function editarLote(data) {
             .input("Activo", sql.NVarChar, data.Activo)
             .execute("DES_Lotes_editar")
             .then((dbData) => {
-                console.log(dbData);
+            
                 const rowsAffected = dbData.rowsAffected;
 
                 try {
@@ -154,7 +154,7 @@ async function editarLote(data) {
                     }
 
                 } catch (error) {
-                    console.log(error);
+              
                     return { error: true, message: error.message };
                 }
 

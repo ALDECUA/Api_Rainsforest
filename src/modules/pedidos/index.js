@@ -136,7 +136,7 @@ router.get(
         context.body = data;
       }
 
-      console.log(data.Categoria);
+      
 
       let html = null;
       if (data.Categoria === 1) {
@@ -147,7 +147,7 @@ router.get(
         html = fs.readFileSync(__dirname + "/recibo.html", "utf-8");
       }
 
-      console.log(html);
+      
 
       html = html.replace("{nombrecliente}", data.Nombre);
       html = html.replace("{cantidadtotal}", data.Precio_Final);
@@ -167,7 +167,7 @@ router.get(
       html = html.replace("{lote}", data.Lote);
 
       await Request.post(
-        "https://greenpark.mx/api/storage/generar_recibo.php"
+        "https://fibraxinversiones.mx/api/storage/generar_recibo.php"
       )
         .set("Content-type", "application/json")
         .set("Accept", "application/json")

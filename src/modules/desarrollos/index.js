@@ -95,4 +95,22 @@ router.post("/insertar_log_drive", koaBody(), async function (context) {
     }
 });
 
+router.post("/insertar_desarrolloWebapp", koaBody(), async function (context) {
+    try {
+        let data = context.request.body;
+        context.body = await db.insertar_desarrolloWebapp(data);
+    } catch (error) {
+        context.body = { error: true, message: error.message };
+    }
+});
+
+router.get("/obtener_desarrolloWebappInfo/:id", koaBody(), async function (context) {
+    try {
+        const id = context.params.id;
+        context.body = await db.obtener_desarrolloWebappInfo(id);
+    } catch (error) {
+        context.body = { error: true, message: error.message };
+    }
+});
+
 module.exports = router;
