@@ -50,8 +50,9 @@ async function sp_loginPrueba(data) {
 
 async function loginCrm(data) {
     try {
-        console.log('entro')
-        const login = await config.query('SELECT * FROM userr WHERE Correo LIKE ? AND Pwd LIKE ? AND IdStatus = 1',[data.Correo,data.Pwd]);
+        
+        if(data.IdPersona ){
+            const login = await config.query('SELECT * FROM userr WHERE IdUsuario = ?  AND IdStatus = 1',[data.IdPersona]);
             if (login) {
                 if (login.length > 0) {
                     return JSON.parse(JSON.stringify(login[0]))[0];
@@ -61,6 +62,19 @@ async function loginCrm(data) {
             } else {
                 return { error: true, message: "Error interno" };
             }
+        }else{
+
+            const login = await config.query('SELECT * FROM userr WHERE Correo LIKE ? AND Pwd LIKE ? AND IdStatus = 1',[data.Correo,data.Pwd]);
+            if (login) {
+                if (login.length > 0) {
+                    return JSON.parse(JSON.stringify(login[0]))[0];
+                } else {
+                    return { empty: true, message: "Error de credenciales" };
+                }
+            } else {
+                return { error: true, message: "Error interno" };
+            }
+        }
         
        
     } catch (error) {

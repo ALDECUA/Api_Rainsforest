@@ -47,7 +47,7 @@ router.post("/login", koaBody({ multipart: true }), async function (context) {
 
 
 
-router.post("/login_inversionista", koaBody({ multipart: true }), async function (context) {
+/* router.post("/login_inversionista", koaBody({ multipart: true }), async function (context) {
     try {
         //console.log('multipart');
         if (context.request.ip.substr(0, 7) == "::ffff:") {
@@ -77,9 +77,9 @@ router.post("/login_inversionista", koaBody({ multipart: true }), async function
         
         context.body = { error: true, message: error.message };
     }
-});
+}); */
 
-router.post("/login_crm", koaBody({ multipart: true }), async function (context) {
+router.post("/login_inversionista", koaBody({ multipart: true }), async function (context) {
     try {
         //console.log('multipart');
         let data = context.request.body;
