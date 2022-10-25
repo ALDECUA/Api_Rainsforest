@@ -47,39 +47,33 @@ router.post("/login", koaBody({ multipart: true }), async function (context) {
 
 
 
-/* router.post("/login_inversionista", koaBody({ multipart: true }), async function (context) {
+router.post("/login_inversionista", koaBody({ multipart: true }), async function (context) {
     try {
-        //console.log('multipart');
-        if (context.request.ip.substr(0, 7) == "::ffff:") {
-            context.request.ip = context.request.ip.substr(7);
-        }
+         //console.log('multipart');
+         let data = context.request.body;
 
-        context.request.body.IP = context.request.ip;
-
-        let data = context.request.body;
-
-        let user = await db.loginInversionista(data);
-
-
-        if (user.persona.error !== 1) {
-            token = await generateJwt(user.persona);
-            
-            context.body = {
-                ...user,
-                token
-            }
-        } else {
-            context.body = user;
-        }
-       
-        //console.log('DATOS FRONT', data);
+         let user = await db.loginCrm(data);
+         
+         console.log(user)
+         if (user.IdUsuario) {
+             token = await generateJwt(user);
+             context.body = {
+                 persona: user,
+                 token
+             }
+ 
+         } else {
+             context.body = user;
+         }
+         //context.body = user;
+ 
     } catch (error) {
         
         context.body = { error: true, message: error.message };
     }
-}); */
+});
 
-router.post("/login_inversionista", koaBody({ multipart: true }), async function (context) {
+router.post("/login_crm", koaBody({ multipart: true }), async function (context) {
     try {
         //console.log('multipart');
         let data = context.request.body;
