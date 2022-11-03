@@ -3,21 +3,17 @@ const sql = require("mssql");
 
 async function listarPerfiles(data) {
   try {
-    const connection = await new sql.ConnectionPool(config).connect();
-    const lista = await connection
-      .request()
-      .input("Opcion", sql.Int, data.Opcion)
-      .execute("CRM_ObtenerPerfiles")
-      .then(async (dbData) => {
-        const recordset = dbData.recordset;
-        if (recordset) {
-          return { perfiles: recordset };
-        } else {
-          return { error: true, message: "Error interno" };
-        }
-      });
-    connection.close();
-    return lista;
+    const lista = await config.query('SELECT * FROM perfiles WHERE IdStatus = 1',[data.Correo,data.Pwd]);
+            if (lista) {
+                if (lista.length > 0) {
+                    return {perfiles : JSON.parse(JSON.stringify(lista[0]))};
+                } else {
+                    return { empty: true, message: "Error de credenciales" };
+                }
+            } else {
+                return { error: true, message: "Error interno" };
+            }
+
   } catch (error) {
     return { error: true, message: error.message };
   }
@@ -64,8 +60,9 @@ async function listarTipoUsuario() {
 }
 async function PerfilesObtenerPorId(id) {
   try {
+    console.log(id)
     const connection = await new sql.ConnectionPool(config).connect();
-    const lista = await connection
+   /*  const lista = await connection
       .request()
       .input("IdPerfil", sql.Int, id)
       .execute("CRM_PerfilesObtenerPorId")
@@ -76,7 +73,7 @@ async function PerfilesObtenerPorId(id) {
         } else {
           return { error: true, message: "Error interno" };
         }
-      });
+      }); */
     connection.close();
     return lista;
   } catch (error) {
