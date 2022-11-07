@@ -5,7 +5,7 @@ const transporter = nodemailer.createTransport({
     secure: false, // use SSL
     port: 587,
     auth: {
-        user: 'notificaciones@fibrax.mx',
+        user: 'notificaciones@gmail.com',
         pass: 'r2y=O{FvXMA={g'
     },
     encoding: 'UTF-8'

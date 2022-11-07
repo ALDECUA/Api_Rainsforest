@@ -1,9 +1,4 @@
-/**
- *  config.js
- *  @version: 1.0.0
- *  @author: FIBRAX
- *  @description: Configuración del MiddleWare para conexiones a Base de datos
- */
+
 
 const { createPool } = require("mysql2/promise");
 

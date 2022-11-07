@@ -1,9 +1,4 @@
-/**
- *  index.js
- *  @version: 1.0.0
- *  @author: Fibrax
- *  @description: Rutas y métodos para /auth
- */
+
 
 const koaRouter = require("koa-router");
 const router = new koaRouter();

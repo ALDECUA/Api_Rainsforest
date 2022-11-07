@@ -16,7 +16,7 @@ async function enviar(
   );
   /* Opciones de email  */
   const mailOptions = {
-    from: "notificaciones@fibrax.mx", //Remitente
+    from: "notificaciones@rainforest.com.mx", //Remitente
     to: customermail, //Destinatario
     cc: copies,
     // bcc: copiaoculta,						//Copia Oculta
@@ -24,13 +24,13 @@ async function enviar(
     html: layoutHtml,
     attachments: atachment,
     headers: {
-      Organization: "Fibrax",
+      Organization: "rainforest",
       "MIME-Version": "1.0",
       "Content-type": "text/html",
       "X-Priority": "3",
       "Reply-To": customermail,
       "Return-Path": customermail,
-      From: "notificaciones@fibrax.mx",
+      From: "notificaciones@rainforest.mx",
     },
   };
 
@@ -128,8 +128,8 @@ async function enviarJM(
       Messages: [
         {
           From: {
-            Email: "notificaciones@fibraxlife.mx",
-            Name: "Notificiaciones Fibrax",
+            Email: "notificaciones@rainforest.mx",
+            Name: "Notificiaciones rainforest",
           },
           To: [
             {
@@ -168,7 +168,7 @@ async function Notificaciones(keys, texto, titulo, url, imagenes) {
   app.use(cors());
   app.use(bodyParser.json());
   webpush.setVapidDetails(
-    "mailto:corportativo@fibraxinversiones.mx",
+    "mailto:corportativo@rainforest.mx",
     vapidKeys.publicKey,
     vapidKeys.privateKey
   );
@@ -184,7 +184,7 @@ async function Notificaciones(keys, texto, titulo, url, imagenes) {
       title: titulo,
       body: texto,
       badge: "💵",
-      icon: "https://fibraxinversiones.mx/asesores/assets/icons/Fibrax-app--logo1-modified.png",
+      icon: "https://rainforest-dashboard.netlify.app/asesores/assets/icons/rainforest-app--logo1-modified.png",
       vibrate: [100, 50, 100],
       image: imagenes,
       actions: [
