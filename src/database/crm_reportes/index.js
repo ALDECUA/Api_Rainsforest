@@ -240,6 +240,45 @@ async function ReportesCotizaciones() {
   }
 }
 
+async function obtenerparqueid(data) {
+  try {
+    const result = await config.query('SELECT * FROM parques  WHERE Status = 1 and IdParque = ?',[data]);
+
+    if (JSON.parse(JSON.stringify(result[0]))) {
+      
+      return JSON.parse(JSON.stringify(result[0]));
+    } else {
+      return {
+        error: true,
+        message: "Error, no se encontraron los registros",
+      };
+    }
+
+
+  } catch (error) {
+    return { error: true, message: error.message };
+  }
+}
+async function parquesrainfores() {
+  try {
+    const result = await config.query('SELECT Nombre,IdParque FROM parques WHERE Status = 1');
+
+    if (JSON.parse(JSON.stringify(result[0]))) {
+      
+      return JSON.parse(JSON.stringify(result[0]));
+    } else {
+      return {
+        error: true,
+        message: "Error, no se encontraron los registros",
+      };
+    }
+
+
+  } catch (error) {
+    return { error: true, message: error.message };
+  }
+}
+
 async function ReportesCotizacionesCRM() {
   try {
     const connection = await new sql.ConnectionPool(config).connect();
@@ -626,5 +665,7 @@ module.exports = {
   InsertarNuevoNivel,
   InsertarColumna,
   EliminarColumna,
-  reporteEncuestas
+  reporteEncuestas,
+  parquesrainfores,
+  obtenerparqueid
 };

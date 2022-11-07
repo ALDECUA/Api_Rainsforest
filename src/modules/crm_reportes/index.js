@@ -88,6 +88,15 @@ router.get("/ReportesCotizaciones", koaBody(), async function(context) {
         context.body = { error: true, message: error.message };
     }
 });
+
+
+router.get("/parquesrainfores", koaBody(), async function(context) {
+    try {
+        context.body = await db.parquesrainfores();
+    } catch (error) {
+        context.body = { error: true, message: error.message };
+    }
+});
 router.get("/ReportesCotizaciones/CRM", koaBody(), async function(context) {
     try {
         context.body = await db.ReportesCotizacionesCRM();
@@ -228,6 +237,14 @@ router.get("/referidosInversionista/:IdInversionista", koaBody(), async function
     try {
         let data = context.params.IdInversionista;
         context.body = await db.obtenerReferidosInversionista(data);
+    } catch (error) {
+        context.body = { error: true, message: error.message };
+    }
+});
+router.get("/obtenerparqueid/:id", koaBody(), async function(context) {
+    try {
+        let data = context.params.id;
+        context.body = await db.obtenerparqueid(data);
     } catch (error) {
         context.body = { error: true, message: error.message };
     }
