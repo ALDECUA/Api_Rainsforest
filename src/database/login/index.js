@@ -70,9 +70,11 @@ async function loginCrm(data) {
 
             const login = await config.query('SELECT * FROM userr WHERE Correo LIKE ? AND Pwd LIKE ? AND IdStatus = 1',[data.Correo,data.Pwd]);
             const menus = await config.query('SELECT IdMenu ,Leer AS Lectura, Editar AS Edicion, Eliminar FROM perfilmenus WHERE IdPerfil = ?',[JSON.parse(JSON.stringify(login[0]))[0].IdPerfil]);
+            const Miembros = await config.query('SELECT COUNT(U.IdUsuario) AS Miembros FROM userr AS U LEFT JOIN perfiles AS P ON P.IdPerfil = U.IdPerfil  WHERE P.IdPerfil = ?',[JSON.parse(JSON.stringify(login[0]))[0].IdPerfil]);
             if (login) {
-                if (login.length > 0) {
+                if (login.length > 0) {                
                     let loginregresar = JSON.parse(JSON.stringify(login[0]))[0];
+                    loginregresar.Miembros = JSON.parse(JSON.stringify(Miembros[0]))[0].Miembros;
                     loginregresar.permisos = JSON.stringify({Menus: (JSON.parse(JSON.stringify(menus))[0])})
                     return loginregresar;
                 } else {
@@ -129,11 +131,8 @@ async function loginInversionista(data) {
 
 async function getUserDataCRM(data) {
     try {
-        console.log(data)
         const login = await config.query('SELECT * FROM userr WHERE IdUsuario = ?  AND IdStatus = 1',[data.IdUsuario]);
         const menus = await config.query('SELECT IdMenu ,Leer AS Lectura, Editar AS Edicion, Eliminar FROM perfilmenus WHERE IdPerfil = ?',[JSON.parse(JSON.stringify(login[0]))[0].IdPerfil]);
-
-
         const Miembros = await config.query('SELECT COUNT(U.IdUsuario) AS Miembros FROM userr AS U LEFT JOIN perfiles AS P ON P.IdPerfil = U.IdPerfil  WHERE P.IdPerfil = ?',[JSON.parse(JSON.stringify(login[0]))[0].IdPerfil]);
 
         if (login) {

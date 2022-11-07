@@ -535,7 +535,20 @@ async function uploadDocumento(data) {
 }
 async function updateInversionistaPassword(data) {
     try {
-        const connection = await new sql.ConnectionPool(config).connect();
+        const updated = await config.query('UPDATE userr set Pwd = ? where IdUsuario = ?;',[data.Pwd, data.IdUsuario]);
+        
+        if (updated) {
+            return { updated: true, message: 'Password actualizada correctamente' };
+        } else {
+            return {
+                error: true,
+                message: "No se pudo actualizar la contraseña",
+            };
+        }
+
+
+        // UPDATE Personas set Password = @Pwd where IdPersona = @IdInversionista;
+       /*  const connection = await new sql.ConnectionPool(config).connect();
         const updated = await connection
             .request()
             .input("IdInversionista", sql.Int, data.IdUsuario)
@@ -552,7 +565,7 @@ async function updateInversionistaPassword(data) {
                 }
             });
         connection.close();
-        return updated;
+        return updated; */
     } catch (error) {
         return { error: true, message: error.message };
     }

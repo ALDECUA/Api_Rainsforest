@@ -54,7 +54,7 @@ router.post("/login_inversionista", koaBody({ multipart: true }), async function
 
          let user = await db.loginCrm(data);
          
-         console.log(user)
+ 
          if (user.IdUsuario) {
              token = await generateJwt(user);
              context.body = {
