@@ -12,7 +12,7 @@ const login = require("./login");
 const crm_usuarios = require('./crm_usuarios');
 const estadisticas = require('./estadisticas');
 const crm_reportes = require('./crm_reportes');
-const admin = require('./admin')
+
 
 
 module.exports = {
@@ -23,6 +23,6 @@ module.exports = {
         estadisticas.routes(),
         crm_usuarios.routes(),
         crm_reportes.routes(),
-        admin.routes(),
+        
     ]
 };
