@@ -241,10 +241,10 @@ router.get("/referidosInversionista/:IdInversionista", koaBody(), async function
         context.body = { error: true, message: error.message };
     }
 });
-router.get("/obtenerparqueid/:id", koaBody(), async function(context) {
+router.get("/datosparque/:i", koaBody(), async function(context) {
     try {
-        let data = context.params.id;
-        context.body = await db.obtenerparqueid(data);
+        let a = context.params.i;
+        context.body = await db.obtenerparqueid(a);
     } catch (error) {
         context.body = { error: true, message: error.message };
     }

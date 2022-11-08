@@ -23,6 +23,5 @@ module.exports = {
         estadisticas.routes(),
         crm_usuarios.routes(),
         crm_reportes.routes(),
-        
     ]
 };

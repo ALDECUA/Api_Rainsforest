@@ -242,7 +242,7 @@ async function ReportesCotizaciones() {
 
 async function obtenerparqueid(data) {
   try {
-    const result = await config.query('SELECT * FROM parques  WHERE Status = 1 and IdParque = ?',[data]);
+    const result = await config.query('SELECT * FROM parquereserva AS PR  JOIN parques AS P ON PR.ParkeName = P.Nombre JOIN reserva AS R ON R.IdReserva = PR.IdReserva JOIN personas AS PE ON PE.IdPersonas = R.IdPersonas  WHERE P.IdParque = ? order by PR.Total DESC;',[data]);
 
     if (JSON.parse(JSON.stringify(result[0]))) {
       
