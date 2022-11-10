@@ -40,7 +40,7 @@ router.post("/crear_usuarios", koaBody(), async function (context) {
           data: { password: newpdw, nombre: data.Nombre, correo: data.Correo },
         },
         "Acceso rainforest",
-        data.Correo
+       [data.Correo]
       );
     }
     context.body = res;
