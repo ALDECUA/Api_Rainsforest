@@ -48,56 +48,7 @@ async function enviar(
 
   return 1;
 }
-async function enviarxcaliburJM(
-  options,
-  subject,
-  customermail,
-  copias = [],
-  atachment = []
-) {
-  /*   let ncopias = [];
-  for (let i = 0; i < copias.length; i++) {
-    if (copias[i] != "null" && copias[i] != undefined && copias[i] != 0) {
-      ncopias.push({ Email: copias[i] });
-    }
-  } */
-  const mailjet = require("node-mailjet").connect(
-    "5b4666372db929ce9b58c9abc5f62d72",
-    "fab1920f0313b72652b758261f6a4e15"
-  );
-  const lay = await layout.layoutHtml(
-    options.path,
-    options.data,
-    options.subpath,
-    options.subdata
-  );
-  const request = mailjet.post("send", { version: "v3.1" }).request({
-    Messages: [
-      {
-        From: {
-          Email: "notificaciones@xcaliburaircraftsolutions.com",
-          Name: "Notificiaciones Xcalibur AirCraft Solution",
-        },
-        To: [
-          {
-            Email: customermail,
-          },
-        ],
-        /*     cc: ncopias, */
-        Subject: subject,
-        HTMLPart: lay,
-      },
-    ],
-  });
-  request
-    .then((result) => {
-      console.log(result.body);
-    })
-    .catch((err) => {
-      console.log(err.statusCode);
-    });
-  return 1;
-}
+
 
 async function enviarJM(
   options,
@@ -128,7 +79,7 @@ async function enviarJM(
       Messages: [
         {
           From: {
-            Email: "notificaciones@fibrax.mx",
+            Email: "cruz.aldej@gmail.com",
             Name: "Notificiaciones rainforest",
           },
           To: [

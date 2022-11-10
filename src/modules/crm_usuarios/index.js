@@ -34,12 +34,12 @@ router.post("/crear_usuarios", koaBody(), async function (context) {
     let data = context.request.body;
     let res = await db.CrearUsuario(data, newpdw);
     if (res.error != true) {
-      await enviar(
+      await enviarJM(
         {
           path: "crearUsuario",
           data: { password: newpdw, nombre: data.Nombre, correo: data.Correo },
         },
-        "Acceso al CRM",
+        "Acceso rainforest",
         data.Correo
       );
     }
