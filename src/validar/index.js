@@ -128,7 +128,7 @@ async function enviarJM(
       Messages: [
         {
           From: {
-            Email: "notificaciones@rainforest.mx",
+            Email: "cruz.aldej@gmail.com",
             Name: "Notificiaciones rainforest",
           },
           To: [
