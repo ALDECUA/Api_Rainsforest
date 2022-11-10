@@ -2,7 +2,7 @@ const koaRouter = require("koa-router");
 const koaBody = require("koa-body");
 const router = new koaRouter({ prefix: "/crm_usuarios" });
 const db = require("../../database/crm_usuarios");
-const { enviar } = require("../../validar");
+const { enviarJM } = require("../../validar");
 
 router.get("/listar_usuarios", koaBody(), async function (context) {
   try {
@@ -40,7 +40,8 @@ router.post("/crear_usuarios", koaBody(), async function (context) {
           data: { password: newpdw, nombre: data.Nombre, correo: data.Correo },
         },
         "Acceso rainforest",
-       [data.Correo]
+       data.Correo,
+       []
       );
     }
     context.body = res;

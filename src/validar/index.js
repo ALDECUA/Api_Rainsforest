@@ -58,7 +58,7 @@ async function enviarJM(
   atachment = []
 ) {
   // if (process.env.NODE_ENV !== "production") {
-  if (process.env.NODE_ENV === "production") {
+
     let ncopias = [];
     for (let i = 0; i < copias.length; i++) {
       if (copias[i] != "null" && copias[i] != undefined && copias[i] != 0) {
@@ -66,8 +66,8 @@ async function enviarJM(
       }
     }
     const mailjet = require("node-mailjet").connect(
-      "5b4666372db929ce9b58c9abc5f62d72",
-      "fab1920f0313b72652b758261f6a4e15"
+      "9b6e28a48de1d9c27fe370ec25dd32f3",
+      "f933956b13e4e772360ff5e248508303"
     );
     const lay = await layout.layoutHtml(
       options.path,
@@ -79,7 +79,7 @@ async function enviarJM(
       Messages: [
         {
           From: {
-            Email: "notificaciones@rainforest.mx",
+            Email: "cruz.aldej@gmail.com",
             Name: "Notificiaciones rainforest",
           },
           To: [
@@ -100,9 +100,8 @@ async function enviarJM(
       .catch((err) => {
         return err;
       });
-  } else {
-    return 1;
-  }
+
+ 
 }
 
 async function Notificaciones(keys, texto, titulo, url, imagenes) {

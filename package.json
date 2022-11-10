@@ -37,7 +37,7 @@
     "mysql2": "^1.7.0",
     "node-cron": "^2.0.3",
     "node-excel-export": "^1.4.4",
-    "node-mailjet": "^3.3.7",
+    "node-mailjet": "^3.4.1",
     "nodejs-file-downloader": "^4.7.2",
     "nodemailer": "^6.4.11",
     "nodemon": "^2.0.12",
