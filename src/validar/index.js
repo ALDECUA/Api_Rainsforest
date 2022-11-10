@@ -168,4 +168,4 @@ async function Notificaciones(keys, texto, titulo, url, imagenes) {
     });
 }
 
-module.exports = { enviar, enviarJM, Notificaciones, enviarxcaliburJM };
+module.exports = { enviar, enviarJM, Notificaciones };
