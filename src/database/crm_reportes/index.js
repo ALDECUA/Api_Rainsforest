@@ -242,11 +242,19 @@ async function ReportesCotizaciones() {
 
 async function obtenerparqueid(data) {
   try {
+    let dosresultados;
     const result = await config.query('SELECT * FROM parquereserva AS PR  JOIN parques AS P ON PR.ParkeName = P.Nombre JOIN reserva AS R ON R.IdReserva = PR.IdReserva JOIN personas AS PE ON PE.IdPersonas = R.IdPersonas  WHERE P.IdParque = ? order by PR.Total DESC;',[data]);
+
+    const datos = await config.query('SELECT DISTINCT Tour FROM parquereserva PR JOIN parques P ON PR.ParkeName = P.Nombre WHERE P.IdParque = ?;',[data]);
 
     if (JSON.parse(JSON.stringify(result[0]))) {
       
-      return JSON.parse(JSON.stringify(result[0]));
+       dosresultados = {
+        datosparques : JSON.parse(JSON.stringify(result[0])),
+        parques : JSON.parse(JSON.stringify(datos[0]))
+      }
+
+      return dosresultados;
     } else {
       return {
         error: true,
