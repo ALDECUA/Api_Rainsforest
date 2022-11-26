@@ -132,63 +132,7 @@ router.post("/calculoOver", koaBody(), async function(context) {
         context.body = { error: true, message: error.message };
     }
 });
-router.post("/imprimir_reporte", koaBody(), async function(context) {
-    try {
-        const data = context.request.body;
-        let html = fs.readFileSync(__dirname + '/reporte.html', 'utf-8');
-        html = html.replace('{registros}', data.registros);
-        html = html.replace('{reporte}', data.reporte);
-        html = html.replace('{detalles}', data.detalles);
-        html = html.replace('{campos_tabla}', data.campos_tabla);
-       
-        await Request.post('https://fibraxinversiones.mx/api/storage/generar_recibo.php')
-            .set('Content-type', 'application/json')
-            .set('Accept', 'application/json')
-            .send({ documento: html })
-            .buffer(true)
-            .then(res => {
-                context.body = res.body;
-                context.type = res.type;
-            }).catch(error => {
-                console.log(error);
-            });
 
-    } catch (error) {
-        context.body = { error: true, message: error.message };
-    }
-
-});
-router.post("/reporteEstadisticas", koaBody(), async function(context) {
-    try {
-        /* hola hola */
-        const data = context.request.body;
-        let html = fs.readFileSync(__dirname + '/' + data.urllink, 'utf-8');
-        html = html.replace('{tituloreporte}', data.tituloreporte);
-        html = html.replace('{titulo}', data.titulo);
-        html = html.replace('{nota}', data.nota);
-        html = html.replace('{depto}', data.depto);
-        html = html.replace('{fecha}', data.fecha);
-        html = html.replace('{finalidad}', data.finalidad);
-        html = html.replace('{cabeceras}', data.cabeceras);
-        html = html.replace('{registros}', data.registros);
-     
-        await Request.post('https://fibraxinversiones.mx/api/storage/generar_recibo.php')
-            .set('Content-type', 'application/json')
-            .set('Accept', 'application/json')
-            .send({ documento: html })
-            .buffer(true)
-            .then(res => {
-                context.body = res.body;
-                context.type = res.type;
-            }).catch(error => {
-                console.log(error);
-            })
-
-    } catch (error) {
-        context.body = { error: true, message: error.message };
-    }
-
-});
 router.get("/reporteECE", koaBody(), async function(context) {
     try {
         context.body = await db.reporteECE();
